@@ -1,0 +1,48 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+          <form class="navbar-form" action="" method="get" target="_blank" id="submission_form">
+            <input type="text" name="name" value="" id="name_submission_text">
+            <input type="button" onclick="on_search_click()" value="Search">
+          </form>
+        </li>
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+       </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container-fluid -->
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+      <ul class="list-group">
+        <li class="list-group-item"><div class="input-group"><span class="input-group-addon"><input type="checkbox" ng-model="d3Data.show_kills" aria-label="..." id="kills-checkbox"> Kills</span></div></li>
+        <li class="list-group-item"><div class="input-group"><span class="input-group-addon"><input type="checkbox" ng-model="d3Data.show_deaths" aria-label="..." id="deaths-checkbox"> Deaths</span></div></li>
+      </ul>
+    </div>
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-0 main" id="card_container">
+      <div class="col-md-4 col-xs-6 col-sm-3" ng-repeat="match in d3Data.matches.matches">
+        <a href="#details/{{d3Data.summonerName}}/{{match}}/true/false">
+          <div class="panel panel-default">
+
+            <div class="panel-heading">
+              <h3 class="panel-title">{{match}}</h3>
+            </div>
+
+            <div class="panel-body" id="card_body_{{match}}">
+              <div ng-controller="MapCtrl">
+                <div map-in-list data="d3Data" matchid="{{match}}"></div>
+              </div>
+            </div>
+
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

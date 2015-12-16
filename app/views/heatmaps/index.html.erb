@@ -1,0 +1,218 @@
+
+<head>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<script>
+var QueryString = function () {
+  // This function is anonymous, is executed immediately and
+  // the return value is assigned to QueryString!
+  var query_string = {};
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+        // If first entry with this name
+    if (typeof query_string[pair[0]] === "undefined") {
+      query_string[pair[0]] = decodeURIComponent(pair[1]);
+        // If second entry with this name
+    } else if (typeof query_string[pair[0]] === "string") {
+      var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+      query_string[pair[0]] = arr;
+        // If third or later entry with this name
+    } else {
+      query_string[pair[0]].push(decodeURIComponent(pair[1]));
+    }
+  }
+    return query_string;
+}();
+
+var makeCard = function(match_id) {
+
+  var start = "<div class=\"col-md-4 col-xs-6 col-sm-3\"><div class=\"panel panel-default\"><a href=\"?details=" + match_id;
+  var middle2 = "\"><div class=\"panel-heading\" id=\"card_heading_" + match_id;
+  var middle1 = "\"><div class=\"map\" id=\"map_" + match_id;
+  var middle = "\"></div></div><div class=\"panel-body\" id=\"card_body_" + match_id;
+  var tail = "\"></div></div></a></div>";
+
+  $("#card_container").append(start + middle2 + middle1 + middle + tail);
+
+  $("#card_body_" + match_id).append(match_id);
+
+  //$().append(card);
+}
+
+function executeReload() {
+  console.log("execReload");
+  $.get("data/match_id_list.json?name=" + $("#name_submission_text").val(),"",startReloading);
+}
+
+function startReloading(responseText) {
+  console.log("startReloading");
+  for (var i = 0; i < responseText.length; i++) {
+    //console.log("Getting match " + responseText[i]);
+    makeCard(responseText[i]);
+    $.get("data/all_kills.json?name=" + $("#name_submission_text").val() + "&match=" + responseText[i],"",doChart);
+  }
+}
+
+var startLoading = function(responseText) {
+
+  for (var i = 0; i < responseText.length; i++) {
+    console.log("Getting match " + responseText[i]);
+    makeCard(responseText[i]);
+    $.get("data/all_kills.json?name=" + QueryString.name + "&match=" + responseText[i],"",doChart);
+    $.get("data/all_deaths.json?name=" + QueryString.name + "&match=" + responseText[i],"",render_deaths_match);
+  }
+}
+
+function update_view() {
+
+  if ($("#deaths-checkbox").is(':checked')) {
+    console.log("rendering deaths true");
+    d3.selectAll(".map").select("svg").selectAll(".deaths").style("opacity",1);
+  }else {
+    console.log("rendering deaths false");
+    d3.selectAll(".map").select("svg").selectAll(".deaths").style("opacity",0);
+  }
+
+  if ($("#kills-checkbox").is(':checked')) {
+    console.log("rendering kills true");
+    d3.selectAll(".map").select("svg").selectAll(".kills").style("opacity",1);
+  }else {
+    console.log("rendering kills false");
+    d3.selectAll(".map").select("svg").selectAll(".kills").style("opacity",0);
+  }
+}
+
+function render_deaths_match(responseText) {
+  if (responseText.length < 1){
+    console.log("Warning: death response nil");
+    return;
+  }
+
+  var cords = responseText.map(function(val) { return [val.pos_x, val.pos_y] });
+
+  console.log("Processing death data for match " + responseText[0].match_id);
+  console.log(cords);
+
+  var domain = {
+          min: {x: -120, y: -120},
+          max: {x: 14870, y: 14980}
+  },
+  width = 256,
+  height = 256,
+  bg = "https://s3-us-west-1.amazonaws.com/riot-api/img/minimap-ig.png",
+  xScale, yScale, svg;
+
+  wi = d3.scale.linear()
+      .domain([0, 3])
+      .range(["white", "steelblue"])
+      .interpolate(d3.interpolateLab);
+
+  xScale = d3.scale.linear()
+    .domain([domain.min.x, domain.max.x])
+    .range([0, width]);
+
+  yScale = d3.scale.linear()
+    .domain([domain.min.y, domain.max.y])
+    .range([height, 0]);
+
+  svg = d3.select("#map_" + responseText[0].match_id).select("svg");
+
+  svg.append('svg:g').selectAll("circle")
+      .data(cords)
+      .enter().append("svg:circle")
+          .attr('cx', function(d) { return xScale(d[0]) })
+          .attr('cy', function(d) { return yScale(d[1]) })
+          .attr('r', 3)
+          .attr('class', 'deaths')
+          .style("opacity",0)
+          .style("fill","#000000")
+          .style("stroke","black");
+}
+
+var doChart = function (responseText) {
+
+  if (responseText.length < 1) return;
+
+  var cords = responseText.map(function(val) { return [val.pos_x, val.pos_y] });
+
+  var domain = {
+          min: {x: -120, y: -120},
+          max: {x: 14870, y: 14980}
+  },
+  width = 256,
+  height = 256,
+  bg = "https://s3-us-west-1.amazonaws.com/riot-api/img/minimap-ig.png",
+  xScale, yScale, svg;
+
+  wi = d3.scale.linear()
+      .domain([0, 3])
+      .range(["white", "steelblue"])
+      .interpolate(d3.interpolateLab);
+
+  xScale = d3.scale.linear()
+    .domain([domain.min.x, domain.max.x])
+    .range([0, width]);
+
+  yScale = d3.scale.linear()
+    .domain([domain.min.y, domain.max.y])
+    .range([height, 0]);
+
+  svg = d3.select("#map_" + responseText[0].match_id).append("svg:svg")
+      .attr("width", width)
+      .attr("height", height);
+
+  svg.append('image')
+      .attr('xlink:href', bg)
+      .attr('x', '0')
+      .attr('y', '0')
+      .attr('width', width)
+      .attr('height', height);
+
+  svg.append('svg:g').selectAll("circle")
+      .data(cords)
+      .enter().append("svg:circle")
+          .attr('cx', function(d) { return xScale(d[0]) })
+          .attr('cy', function(d) { return yScale(d[1]) })
+          .attr('r', 3)
+          .attr('class', 'kills')
+          .style("fill","#FFFFFF")
+          .style("stroke","black");
+
+  // $(".map").each(function() {
+  //   console.log($(this));
+  //   $(this).append("<div>this is a map card</div>");
+  // });
+
+  //setTimeout(function(){ location.reload(); }, 3000);
+}
+
+$("document").ready( function () {
+  //console.log(QueryString);
+  $("#kills-checkbox").prop("checked",true);
+
+  $("#submission_form").submit(on_search_click);
+  $("#deaths-checkbox").click(update_view);
+  $("#kills-checkbox").click(update_view);
+  $.get("data/match_id_list.json?name=" + QueryString.name,"",startLoading);
+});
+
+
+</script>
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+      <ul class="list-group">
+        <li class="list-group-item"><div class="input-group"><span class="input-group-addon"><input type="checkbox" checked="true" aria-label="..." id="kills-checkbox"> Kills</span></div></li>
+        <li class="list-group-item"><div class="input-group"><span class="input-group-addon"><input type="checkbox" aria-label="..." id="deaths-checkbox"> Deaths</span></div></li>
+      </ul>
+    </div>
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-0 main" id="card_container">
+    </div>
+  </div>
+</div>
