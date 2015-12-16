@@ -23,7 +23,7 @@ function($scope, $location, $http, $routeParams, KillData, DeathData, MatchList)
   MatchList.loadPosts($routeParams.summonerName);
 
   $scope.back_to_list = function() {
-    $location.path("/list/" + $routeParams.summonerName + "/true/false");
+    $location.path("heatmaps/list/" + $routeParams.summonerName + "/true/false");
   };
 
 }

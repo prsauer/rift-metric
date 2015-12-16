@@ -58,7 +58,7 @@ angular.module('mainApp').controller('welcomeDetailsCtrl').directive('mapInDetai
 
               console.log("DETAILS RENDER");
 
-              svg.selectAll("circle").remove();
+              svg.selectAll("g").remove();
 
               var width = 512,
               // calculate the height
@@ -88,34 +88,53 @@ angular.module('mainApp').controller('welcomeDetailsCtrl').directive('mapInDetai
                 console.log("DETAIL RENDER KILLS");
                 var newdata;
                 newdata = scope.data.kills.matches.filter(function(d) {return d.match_id == attrs.matchid;})
-                var kill_cords = newdata.map(function(d) {return [d.pos_x, d.pos_y]});
-                console.log(kill_cords);
+                newdata.sort(function(a,b) {if (a.riot_timestamp > b.riot_timestamp) return -1; else return 1;});
 
                 svg.append('svg:g').selectAll("circle")
-                    .data(kill_cords)
+                    .data(newdata)
                     .enter().append("svg:circle")
-                        .attr('cx', function(d) { return xScale(d[0]) })
-                        .attr('cy', function(d) { return yScale(d[1]) })
+                        .attr('cx', function(d,i) { return xScale(d.pos_x) })
+                        .attr('cy', function(d,i) { return yScale(d.pos_y) })
                         .attr('r', 3)
                         .attr('class', 'kills')
                         .style("fill","#FFFFFF")
                         .style("stroke","black");
+
+                svg.append('svg:g').selectAll("text")
+                    .data(newdata)
+                    .enter().append("text")
+                        .attr('x', function(d,i) { return xScale(d.pos_x) })
+                        .attr('y', function(d,i) { return yScale(d.pos_y) })
+                        .style("fill","#FFFFFF")
+                        .style("stroke","black")
+                        .text(function(d,i){return i+1;})
+                        .attr('font-size', 35)
               }
 
               if (scope.data.show_deaths) {
                 var newdata;
                 newdata = scope.data.deaths.matches.filter(function(d) {return d.match_id == attrs.matchid;})
-                var death_cords = newdata.map(function(d) {return [d.pos_x, d.pos_y]});
+                newdata.sort(function(a,b) {if (a.riot_timestamp > b.riot_timestamp) return -1; else return 1;});
 
                 svg.append('svg:g').selectAll("circle")
-                    .data(death_cords)
+                    .data(newdata)
                     .enter().append("svg:circle")
-                        .attr('cx', function(d) { return xScale(d[0]) })
-                        .attr('cy', function(d) { return yScale(d[1]) })
+                        .attr('cx', function(d) { return xScale(d.pos_x) })
+                        .attr('cy', function(d) { return yScale(d.pos_y) })
                         .attr('r', 3)
                         .attr('class', 'kills')
                         .style("fill","#000000")
                         .style("stroke","black");
+
+                svg.append('svg:g').selectAll("text")
+                    .data(newdata)
+                    .enter().append("text")
+                        .attr('x', function(d,i) { return xScale(d.pos_x) })
+                        .attr('y', function(d,i) { return yScale(d.pos_y) })
+                        .style("fill","#000000")
+                        .style("stroke","white")
+                        .text(function(d,i){return i+1;})
+                        .attr('font-size', 35)
               }
 
 
