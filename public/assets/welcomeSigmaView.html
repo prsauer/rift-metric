@@ -1,9 +1,3 @@
-<div class="jumbotron">
-  <div class="container">
-    <h2>RM//maps</h2>
-  </div>
-</div>
-
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div id="navbar" class="navbar-collapse collapse">
@@ -20,33 +14,30 @@
 </nav>
 
 <div class="container-fluid">
-  <div class="row">
     <div class="col-sm-3 col-md-2 sidebar">
       <ul class="list-group">
         <li class="list-group-item"><div class="input-group"><span class="input-group-addon"><input type="checkbox" ng-model="d3Data.show_kills" aria-label="..." id="kills-checkbox"> Kills</span></div></li>
         <li class="list-group-item"><div class="input-group"><span class="input-group-addon"><input type="checkbox" ng-model="d3Data.show_deaths" aria-label="..." id="deaths-checkbox"> Deaths</span></div></li>
-        <li class="list-group-item"><div class="input-group"><span class="input-group-addon"><input type="button" ng-click="go_to_sigma()" aria-label="..." value="&#931;"></span></div></li>
       </ul>
     </div>
 
-    <div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-0 main" id="card_container">
-      <div class="col-md-4 col-xs-6 col-sm-3" ng-repeat="match in d3Data.matches.matches">
-        <a href="#heatmaps/details/{{d3Data.summonerName}}/{{match}}/true/false">
-          <div class="panel panel-default">
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-0 main">
+      <div class="panel panel-default">
 
-            <div class="panel-heading">
-              <h3 class="panel-title">{{match}}</h3>
-            </div>
+        <div class="panel-heading">
+          <h3 class="panel-title" style="display: inline;">{{d3Data.selected_match}}</h3>
+          <input type="submit" ng-click="back_to_list()" aria-label="..." value="Close">
+        </div>
 
-            <div class="panel-body" id="card_body_{{match}}">
-              <div ng-controller="MapCtrl">
-                <div map-in-list data="d3Data" matchid="{{match}}"></div>
-              </div>
-            </div>
-
+        <div class="panel-body" id="card_body_{{match}}">
+          <div ng-controller="MapCtrl" >
+            <div map-in-sigma data="d3Data" matchid="{{d3Data.selected_match}}"></div>
           </div>
-        </a>
+        </div>
+
       </div>
     </div>
-  </div>
+
+
+
 </div>

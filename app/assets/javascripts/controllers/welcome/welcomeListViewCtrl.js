@@ -34,5 +34,9 @@ angular.module('mainApp').controller('welcomeListViewCtrl', ['$scope', '$locatio
     MatchList.loadPosts($routeParams.summonerName);
   }
 
+  $scope.go_to_sigma = function() {
+    $location.path("heatmaps/sigma/" + $routeParams.summonerName + "/true/false");
+  };
+
   $scope.viewPost = function(postId) { return $location.url('/post/'+postId) };
 }]);

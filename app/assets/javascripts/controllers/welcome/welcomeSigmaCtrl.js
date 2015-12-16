@@ -1,4 +1,4 @@
-angular.module('mainApp').controller('welcomeDetailsCtrl',
+angular.module('mainApp').controller('welcomeSigmaCtrl',
 
 ['$scope', '$location', '$http', '$routeParams', 'KillData', 'DeathData', 'MatchList',
 
@@ -24,10 +24,6 @@ function($scope, $location, $http, $routeParams, KillData, DeathData, MatchList)
 
   $scope.back_to_list = function() {
     $location.path("heatmaps/list/" + $routeParams.summonerName + "/true/false");
-  };
-  
-  $scope.go_to_sigma = function() {
-    $location.path("heatmaps/sigma/" + $routeParams.summonerName + "/true/false");
   };
 
 }
