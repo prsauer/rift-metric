@@ -19,7 +19,7 @@ function ($http) {
       $http.get('./data/all_kills.json?name='+summonerName).success(function(data) {
       killData.data.matches = data;
       //console.log($scope.data.posts);
-      return console.log("Loaded data");
+      //return console.log("Loaded data");
     }).error(function() {
       return console.error("Failed to get data!");
     });

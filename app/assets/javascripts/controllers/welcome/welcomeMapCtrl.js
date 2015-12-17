@@ -1,8 +1,7 @@
 
-angular.module('mainApp').controller('MapCtrl', ['$scope',
+angular.module('mainApp').controller('MapCtrl', ['$scope', 'ShareData',
 
-function($scope) {
-  console.log("map controller fire");
+function($scope, ShareData) {
+  $scope.data = ShareData;
 }
-
 ]);

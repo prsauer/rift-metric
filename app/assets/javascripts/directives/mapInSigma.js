@@ -1,6 +1,5 @@
 
-
-angular.module('mainApp').controller('welcomeSigmaCtrl').directive('mapInSigma', ['d3Service', '$window', function (d3Service, $window) {
+angular.module('mainApp').controller('MapCtrl').directive('mapInSigma', ['d3Service', '$window', function (d3Service, $window) {
     return {
         restrict: 'EA',
         scope: {
@@ -12,12 +11,14 @@ angular.module('mainApp').controller('welcomeSigmaCtrl').directive('mapInSigma',
               barHeight = parseInt(attrs.barHeight) || 20,
               barPadding = parseInt(attrs.barPadding) || 5;
 
+              var MAGIC_NUMBER = element[0].clientWidth;
+
               var domain = {
                       min: {x: -120, y: -120},
                       max: {x: 14870, y: 14980}
               },
-              width = 512,
-              height = 512,
+              width = MAGIC_NUMBER,
+              height = MAGIC_NUMBER,
               bg = "https://s3-us-west-1.amazonaws.com/riot-api/img/minimap-ig.png",
               xScale, yScale, svg;
 
@@ -25,7 +26,9 @@ angular.module('mainApp').controller('welcomeSigmaCtrl').directive('mapInSigma',
                 scope.$apply();
               };
 
-              var svg = d3.select(element[0]).append("svg").style("width",'100%').style("height",512);
+              var svg = d3.select(element[0]).append("svg")
+              .attr('width', width)
+              .attr('height', height);
 
               svg.append('image')
                   .attr('xlink:href', bg)
@@ -47,8 +50,6 @@ angular.module('mainApp').controller('welcomeSigmaCtrl').directive('mapInSigma',
             });
 
             scope.$watch('data', function(newVals, oldVals) {
-              //console.log("render call source data watch");
-              //console.log(angular.element($window));
               return scope.render(newVals);
             }, true);
 
@@ -56,13 +57,13 @@ angular.module('mainApp').controller('welcomeSigmaCtrl').directive('mapInSigma',
 
               if (!data) return;
 
-              console.log("DETAILS RENDER");
+              //console.log("DETAILS RENDER");
 
               svg.selectAll("g").remove();
 
-              var width = 512,
+              var width = MAGIC_NUMBER,
               // calculate the height
-              height = 512,
+              height = MAGIC_NUMBER,
               // Use the category20() scale function for multicolor support
               color = d3.scale.category20();
 
@@ -82,9 +83,9 @@ angular.module('mainApp').controller('welcomeSigmaCtrl').directive('mapInSigma',
                 .domain([domain.min.y, domain.max.y])
                 .range([height, 0]);
 
-              console.log("SCOPE_RENDER: " + scope.data.show_kills + "," + scope.data.show_deaths);
+              //console.log("SCOPE_RENDER: " + scope.data.show_kills + "," + scope.data.show_deaths);
 
-              if (scope.data.show_kills) {
+              if (scope.data.controls.show_kills) {
                 console.log("DETAIL RENDER KILLS");
                 var newdata;
                 newdata = scope.data.kills.matches;
@@ -109,7 +110,7 @@ angular.module('mainApp').controller('welcomeSigmaCtrl').directive('mapInSigma',
 
               }
 
-              if (scope.data.show_deaths) {
+              if (scope.data.controls.show_deaths) {
                 var newdata;
                 newdata = scope.data.deaths.matches;
                 newdata.sort(function(a,b) {if (a.riot_timestamp > b.riot_timestamp) return -1; else return 1;});

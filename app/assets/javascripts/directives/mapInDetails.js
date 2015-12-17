@@ -1,6 +1,6 @@
 
 
-angular.module('mainApp').controller('welcomeDetailsCtrl').directive('mapInDetails', ['d3Service', '$window', function (d3Service, $window) {
+angular.module('mainApp').controller('MapCtrl').directive('mapInDetails', ['d3Service', '$window', function (d3Service, $window) {
     return {
         restrict: 'EA',
         scope: {
@@ -12,12 +12,14 @@ angular.module('mainApp').controller('welcomeDetailsCtrl').directive('mapInDetai
               barHeight = parseInt(attrs.barHeight) || 20,
               barPadding = parseInt(attrs.barPadding) || 5;
 
+              var MAGIC_NUMBER = element[0].clientWidth;
+
               var domain = {
                       min: {x: -120, y: -120},
                       max: {x: 14870, y: 14980}
               },
-              width = 512,
-              height = 512,
+              width = MAGIC_NUMBER,
+              height = MAGIC_NUMBER,
               bg = "https://s3-us-west-1.amazonaws.com/riot-api/img/minimap-ig.png",
               xScale, yScale, svg;
 
@@ -25,7 +27,9 @@ angular.module('mainApp').controller('welcomeDetailsCtrl').directive('mapInDetai
                 scope.$apply();
               };
 
-              var svg = d3.select(element[0]).append("svg").style("width",'100%').style("height",512);
+              var svg = d3.select(element[0]).append("svg")
+              .attr('width', width)
+              .attr('height', height);
 
               svg.append('image')
                   .attr('xlink:href', bg)
@@ -56,13 +60,13 @@ angular.module('mainApp').controller('welcomeDetailsCtrl').directive('mapInDetai
 
               if (!data) return;
 
-              console.log("DETAILS RENDER");
+              //console.log("DETAILS RENDER");
 
               svg.selectAll("g").remove();
 
-              var width = 512,
+              var width = MAGIC_NUMBER,
               // calculate the height
-              height = 512,
+              height = MAGIC_NUMBER,
               // Use the category20() scale function for multicolor support
               color = d3.scale.category20();
 
@@ -82,10 +86,10 @@ angular.module('mainApp').controller('welcomeDetailsCtrl').directive('mapInDetai
                 .domain([domain.min.y, domain.max.y])
                 .range([height, 0]);
 
-              console.log("SCOPE_RENDER: " + scope.data.show_kills + "," + scope.data.show_deaths);
+              //console.log("SCOPE_RENDER: " + scope.data.show_kills + "," + scope.data.show_deaths);
 
-              if (scope.data.show_kills) {
-                console.log("DETAIL RENDER KILLS");
+              if (scope.data.controls.show_kills) {
+                //console.log("DETAIL RENDER KILLS");
                 var newdata;
                 newdata = scope.data.kills.matches.filter(function(d) {return d.match_id == attrs.matchid;})
                 newdata.sort(function(a,b) {if (a.riot_timestamp > b.riot_timestamp) return -1; else return 1;});
@@ -111,7 +115,7 @@ angular.module('mainApp').controller('welcomeDetailsCtrl').directive('mapInDetai
                         .attr('font-size', 35)
               }
 
-              if (scope.data.show_deaths) {
+              if (scope.data.controls.show_deaths) {
                 var newdata;
                 newdata = scope.data.deaths.matches.filter(function(d) {return d.match_id == attrs.matchid;})
                 newdata.sort(function(a,b) {if (a.riot_timestamp > b.riot_timestamp) return -1; else return 1;});

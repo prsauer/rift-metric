@@ -13,7 +13,7 @@ function ($http) {
       $http.get('./data/match_id_list.json?name=' + summonerName).success(function(data) {
       matchList.data.matches = data;
       //console.log($scope.data.posts);
-      return console.log("Loaded data");
+      //return console.log("Loaded data");
     }).error(function() {
       return console.error("Failed to get data!");
     });

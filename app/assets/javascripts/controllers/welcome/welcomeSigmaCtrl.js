@@ -1,29 +1,27 @@
 angular.module('mainApp').controller('welcomeSigmaCtrl',
 
-['$scope', '$location', '$http', '$routeParams', 'KillData', 'DeathData', 'MatchList',
+['$scope', '$location', '$http', '$stateParams', 'KillData', 'DeathData', 'MatchList', 'ShareData',
 
-function($scope, $location, $http, $routeParams, KillData, DeathData, MatchList) {
-  console.log($routeParams.summonerName != undefined);
-
+function($scope, $location, $http, $stateParams, KillData, DeathData, MatchList, ShareData) {
+  console.log("Sigma Controller FIRE");
+  
   $scope.d3Data = {
-    summonerName: $routeParams.summonerName,
+    summonerName: $stateParams.summonerName,
     kills: KillData.data,
     deaths: DeathData.data,
     matches: MatchList.data,
-    show_kills: $routeParams.showKills == "true",
-    show_deaths: $routeParams.showDeaths == "true",
-    selected_match: $routeParams.matchId
+    show_kills: $stateParams.showKills == "true",
+    show_deaths: $stateParams.showDeaths == "true",
+    selected_match: $stateParams.matchId,
+    controls: ShareData
   };
 
-  console.log("Show Kills: " + $scope.d3Data.show_kills + " Deaths: " + $scope.d3Data.show_deaths);
-  console.log($scope);
-
-  KillData.loadPosts($routeParams.summonerName);
-  DeathData.loadPosts($routeParams.summonerName);
-  MatchList.loadPosts($routeParams.summonerName);
+  KillData.loadPosts($stateParams.summonerName);
+  DeathData.loadPosts($stateParams.summonerName);
+  MatchList.loadPosts($stateParams.summonerName);
 
   $scope.back_to_list = function() {
-    $location.path("heatmaps/list/" + $routeParams.summonerName + "/true/false");
+    $location.path("heatmaps/list/" + $stateParams.summonerName + "/true/false");
   };
 
 }

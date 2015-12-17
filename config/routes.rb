@@ -1,21 +1,25 @@
 Rails.application.routes.draw do
-  resources :widgets
+  #resources :widgets
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
 
-  root to: 'welcome#index'
-
-  #root 'welcome#index'
-
   get 'data/all_kills', to: 'data#all_kills'
   get 'data/all_wards', to: 'data#all_wards'
   get 'data/all_deaths', to: 'data#all_deaths'
+  get 'data/match_id_list', to: 'data#match_id_list'
+
+  root 'welcome#index'
+  get '*path', to: 'welcome#index'
+  
+  #root to: 'welcome#index'
+  #root 'welcome#index'
+
   #get 'gather/match_list', to: 'gather#match_list'
   #get 'gather/match_details', to: 'gather#match_details'
-  get 'data/match_id_list', to: 'data#match_id_list'
+
   #get 'heatmaps', to: 'heatmaps#index'
 
   # Example of regular route:

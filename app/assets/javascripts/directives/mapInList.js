@@ -8,16 +8,17 @@ angular.module('mainApp').controller('MapCtrl').directive('mapInList', ['d3Servi
         },
         link: function(scope,element,attrs) {
           d3Service.d3().then(function(d3) {
-            var margin = parseInt(attrs.margin) || 20,
-              barHeight = parseInt(attrs.barHeight) || 20,
-              barPadding = parseInt(attrs.barPadding) || 5;
+
+              var image_size = element[0].clientWidth;
+
+              var margin = parseInt(attrs.margin) || 20,
+                barHeight = parseInt(attrs.barHeight) || 20,
+                barPadding = parseInt(attrs.barPadding) || 5;
 
               var domain = {
                       min: {x: -120, y: -120},
                       max: {x: 14870, y: 14980}
               },
-              width = 128,
-              height = 128,
               bg = "https://s3-us-west-1.amazonaws.com/riot-api/img/minimap-ig.png",
               xScale, yScale, svg;
 
@@ -25,30 +26,24 @@ angular.module('mainApp').controller('MapCtrl').directive('mapInList', ['d3Servi
                 scope.$apply();
               };
 
-              var svg = d3.select(element[0]).append("svg").style("width",'100%');
+              var svg = d3.select(element[0]).append("svg")
+              .attr('width', image_size)
+              .attr('height', image_size);
 
               svg.append('image')
                   .attr('xlink:href', bg)
                   .attr('x', '0')
                   .attr('y', '0')
-                  .attr('width', width)
-                  .attr('height', height);
-
-
-            //console.log(scope);
-
-            //scope.data = [1,2];
+                  .attr('width', image_size)
+                  .attr('height', image_size);
 
             scope.$watch(function() {
               return angular.element($window)[0].innerWidth;
             }, function() {
-              //console.log("render call source resize");
               scope.render(scope.data);
             });
 
             scope.$watch('data', function(newVals, oldVals) {
-              //console.log("render call source data watch");
-              //console.log(angular.element($window));
               return scope.render(newVals);
             }, true);
 
@@ -58,11 +53,8 @@ angular.module('mainApp').controller('MapCtrl').directive('mapInList', ['d3Servi
 
               svg.selectAll("circle").remove();
 
-              var width = 128,
-              // calculate the height
-              height = 128,
               // Use the category20() scale function for multicolor support
-              color = d3.scale.category20();
+              var color = d3.scale.category20();
 
               // set the height based on the calculations above
               //svg.attr('height', height);
@@ -74,17 +66,14 @@ angular.module('mainApp').controller('MapCtrl').directive('mapInList', ['d3Servi
 
               xScale = d3.scale.linear()
                 .domain([domain.min.x, domain.max.x])
-                .range([0, width]);
+                .range([0, image_size]);
 
               yScale = d3.scale.linear()
                 .domain([domain.min.y, domain.max.y])
-                .range([height, 0]);
+                .range([image_size, 0]);
 
-              console.log("SCOPE_RENDER: " + scope.data.show_kills + "," + scope.data.show_deaths);
-
-              if (scope.data.show_kills) {
-                var newdata;
-                newdata = scope.data.kills.matches.filter(function(d) {return d.match_id == attrs.matchid;})
+              if (scope.data.controls.show_kills) {
+                var newdata = scope.data.kills.matches.filter(function(d) {return d.match_id == attrs.matchid;})
                 var kill_cords = newdata.map(function(d) {return [d.pos_x, d.pos_y]});
 
                 svg.append('svg:g').selectAll("circle")
@@ -98,9 +87,8 @@ angular.module('mainApp').controller('MapCtrl').directive('mapInList', ['d3Servi
                         .style("stroke","black");
               }
 
-              if (scope.data.show_deaths) {
-                var newdata;
-                newdata = scope.data.deaths.matches.filter(function(d) {return d.match_id == attrs.matchid;})
+              if (scope.data.controls.show_deaths) {
+                var newdata = scope.data.deaths.matches.filter(function(d) {return d.match_id == attrs.matchid;})
                 var death_cords = newdata.map(function(d) {return [d.pos_x, d.pos_y]});
 
                 svg.append('svg:g').selectAll("circle")
@@ -113,8 +101,6 @@ angular.module('mainApp').controller('MapCtrl').directive('mapInList', ['d3Servi
                         .style("fill","#000000")
                         .style("stroke","black");
               }
-
-
             }
 
           });

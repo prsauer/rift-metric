@@ -27,11 +27,12 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'angularjs-rails'
 gem 'angular-rails-templates'
 gem 'ngannotate-rails'
+gem 'angular-ui-router-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
-gem 'sprockets', '3.3.2'
+gem 'sprockets', '2.12.3'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 #gem 'turbolinks'

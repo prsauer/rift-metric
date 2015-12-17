@@ -1,2 +1,37 @@
-<div class="container" ng-view>
+<div class="jumbotron">
+  <div class="container">
+    <h2>RM//maps</h2>
+  </div>
+</div>
+
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+          <form class="navbar-form" action="" method="get" target="_blank" id="submission_form">
+            <input type="text" name="name" value="" id="name_submission_text">
+            <input type="button" onclick="on_search_click()" value="Search">
+          </form>
+        </li>
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+       </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container-fluid -->
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+      <section ui-view="controls"></section>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-0 main">
+      <div class="container">
+        <section ui-view="graph"></section>
+      </div>
+    </div>
+  </div>
 </div>
