@@ -10,7 +10,7 @@ function (d3Service,   $window,   DataService,   ControlsData) {
         scope: {
           data: '=',
         },
-        link: function(scope,element,attrs,controllers) {
+        link: function(scope,element,attrs) {
           d3Service.d3().then(function(d3) {
             var margin = parseInt(attrs.margin) || 20,
               barHeight = parseInt(attrs.barHeight) || 20,
@@ -86,9 +86,6 @@ function (d3Service,   $window,   DataService,   ControlsData) {
               // Use the category20() scale function for multicolor support
               color = d3.scale.category20();
 
-              // set the height based on the calculations above
-              //svg.attr('height', height);
-
               wi = d3.scale.linear()
                   .domain([0, 3])
                   .range(["white", "steelblue"])
@@ -108,8 +105,6 @@ function (d3Service,   $window,   DataService,   ControlsData) {
                 .append("feGaussianBlur")
                 .attr("stdDeviation",5);
 
-                //var all_killdata = DataService.kills.map(function(el) {return el});
-                //console.log(all_killdata);
                 var allkills = [];
 
                 for(var key in DataService.kills) {

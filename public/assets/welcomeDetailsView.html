@@ -1,14 +1,14 @@
 <div class="panel panel-default">
 
   <div class="panel-heading">
-    <h3 class="panel-title" style="display: inline;">{{d3Data.selected_match}}</h3>
+    <h3 class="panel-title" style="display: inline;">
+      {{details_ctrl.data_watcher.performances[details_ctrl.my_matchid].winner ? "Victory" : "Defeat"}}
+    </h3>
     <input type="submit" ng-click="back_to_list()" aria-label="..." value="Close">
   </div>
 
   <div class="panel-body" id="card_body_{{match}}">
-    <div ng-controller="MapCtrl" >
-      <div map-in-details data="d3Data" matchid="{{d3Data.selected_match}}"></div>
-    </div>
+    <div map-in-details ></div>
   </div>
 
 </div>

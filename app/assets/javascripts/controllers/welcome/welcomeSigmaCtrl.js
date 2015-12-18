@@ -1,8 +1,8 @@
-angular.module('mainApp').controller('welcomeSigmaCtrl',
 
-['$scope', '$location', '$http', '$stateParams', 'ControlsData', '$state', 'DataService',
-
-function($scope, $location, $http, $stateParams, ControlsData, $state, DataService) {
+angular.module('mainApp')
+.controller('welcomeSigmaCtrl',
+       ['$scope', '$location', '$http', '$stateParams', 'ControlsData', '$state', 'DataService',
+function($scope,   $location,   $http,   $stateParams,   ControlsData,   $state,   DataService) {
   console.log("Sigma Controller FIRE");
 
   this.matches = {};
@@ -37,8 +37,6 @@ function($scope, $location, $http, $stateParams, ControlsData, $state, DataServi
       console.log(err);
     }
   );
-
-
 
 }
 

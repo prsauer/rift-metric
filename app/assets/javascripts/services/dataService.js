@@ -22,18 +22,30 @@ function ($http, $q, $scope) {
     var d = $q.defer();
       //if (!dataService.deaths_have_loaded.hasOwnProperty(matchid)) {
         $http.get('./data/all_deaths.json?name=' + summonerName ).success(function(data) {
+
           data.forEach(function(ele) {
-            if (dataService.deaths.hasOwnProperty(ele.match_id)) {
-              dataService.deaths[ele.match_id].push(ele);
+            if (
+            !dataService.deaths_have_loaded.hasOwnProperty(ele.match_id) ||
+            (dataService.deaths_have_loaded.hasOwnProperty(ele.match_id) && !dataService.deaths_have_loaded[ele.match_id])
+            )
+            {
+              if (dataService.deaths.hasOwnProperty(ele.match_id)) {
+                dataService.deaths[ele.match_id].push(ele);
+              }
+              else {
+                dataService.deaths[ele.match_id] = [ele];
+              }
             }
-            else {
-              dataService.deaths[ele.match_id] = [ele];
-            }
+          });
+
+          data.forEach(function(ele) {
             dataService.deaths_have_loaded[ele.match_id] = true;
           });
+
           d.resolve(data);
           dataService.sigma_deaths = true;
           console.log("Loaded gatherSigma_deaths " + summonerName );
+          console.log(dataService);
         }).error(function() {
           return console.error("Failed to get data! " + summonerName );
         });
@@ -49,14 +61,24 @@ function ($http, $q, $scope) {
       //if (!dataService.kills_have_loaded.hasOwnProperty(matchid)) {
         $http.get('./data/all_kills.json?name=' + summonerName ).success(function(data) {
           data.forEach(function(ele) {
-            if (dataService.kills.hasOwnProperty(ele.match_id)) {
-              dataService.kills[ele.match_id].push(ele);
+            if (
+            !dataService.kills_have_loaded.hasOwnProperty(ele.match_id) ||
+            (dataService.kills_have_loaded.hasOwnProperty(ele.match_id) && !dataService.kills_have_loaded[ele.match_id])
+            )
+            {
+              if (dataService.kills.hasOwnProperty(ele.match_id)) {
+                dataService.kills[ele.match_id].push(ele);
+              }
+              else {
+                dataService.kills[ele.match_id] = [ele];
+              }
             }
-            else {
-              dataService.kills[ele.match_id] = [ele];
-            }
+          });
+
+          data.forEach(function(ele) {
             dataService.kills_have_loaded[ele.match_id] = true;
           });
+
           d.resolve(data);
           dataService.sigma_kills = true;
           console.log("Loaded gatherSigma_kills " + summonerName );
