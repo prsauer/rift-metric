@@ -10,10 +10,12 @@ Rails.application.routes.draw do
   get 'data/all_wards', to: 'data#all_wards'
   get 'data/all_deaths', to: 'data#all_deaths'
   get 'data/match_id_list', to: 'data#match_id_list'
-
+  get 'data/match_details', to: 'data#all_match_details'
+  get 'data/match_perf', to: 'data#all_performances'
+  
   root 'welcome#index'
   get '*path', to: 'welcome#index'
-  
+
   #root to: 'welcome#index'
   #root 'welcome#index'
 

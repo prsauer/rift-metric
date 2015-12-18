@@ -1,12 +1,19 @@
 
 
-angular.module('mainApp').controller('MapCtrl').directive('mapInList', ['d3Service', '$window', function (d3Service, $window) {
+angular.module('mainApp').controller('MapCtrl').directive('mapInList', ['d3Service', '$window', 'DataService', 'ControlsData', function (d3Service, $window, DataService, ControlsData) {
     return {
         restrict: 'EA',
+        controller: 'MapCtrl',
+        controllerAs: 'mapc',
+        bindToController: true,
         scope: {
           data: '=',
         },
-        link: function(scope,element,attrs) {
+        link: function(scope,element,attrs,controllers) {
+          //console.log("mapInList LINK");
+
+          //console.log(scope);
+
           d3Service.d3().then(function(d3) {
 
               var image_size = element[0].clientWidth;
@@ -37,19 +44,35 @@ angular.module('mainApp').controller('MapCtrl').directive('mapInList', ['d3Servi
                   .attr('width', image_size)
                   .attr('height', image_size);
 
+
+            scope.partial_render = function(data) {
+              //console.log("partial rendering");
+              d3.selectAll(".kills").attr("opacity", (ControlsData.show_kills)?1:0);
+              d3.selectAll(".deaths").attr("opacity", (ControlsData.show_deaths)?1:0);
+            }
+
             scope.$watch(function() {
               return angular.element($window)[0].innerWidth;
             }, function() {
               scope.render(scope.data);
             });
 
-            scope.$watch('data', function(newVals, oldVals) {
-              return scope.render(newVals);
-            }, true);
+            scope.$watch('controls_watcher', function(newVals, oldVals) {
+              scope.partial_render();
+            },
+            true);
+
+            scope.$watch('mapc.kills_data_ready && mapc.perfs_data_ready && mapc.deaths_data_ready', function(newVals, oldVals) {
+              //console.log("WATCH data_ready: " + newVals + " : " + oldVals);
+              //if (newVals != oldVals)
+                return scope.render(newVals);
+            }, false);
 
             scope.render = function(data) {
 
               if (!data) return;
+
+              //console.log("Full render trig");
 
               svg.selectAll("circle").remove();
 
@@ -72,37 +95,28 @@ angular.module('mainApp').controller('MapCtrl').directive('mapInList', ['d3Servi
                 .domain([domain.min.y, domain.max.y])
                 .range([image_size, 0]);
 
-              if (scope.data.controls.show_kills) {
-                var newdata = scope.data.kills.matches.filter(function(d) {return d.match_id == attrs.matchid;})
-                var kill_cords = newdata.map(function(d) {return [d.pos_x, d.pos_y]});
+              svg.append('svg:g').selectAll("circle")
+                  .data(DataService.kills[controllers.my_matchid].map(function(d) { return [d.pos_x, d.pos_y]}))
+                  .enter().append("svg:circle")
+                      .attr('cx', function(d) { return xScale(d[0]) })
+                      .attr('cy', function(d) { return yScale(d[1]) })
+                      .attr('r', 3)
+                      .attr('class', 'kills')
+                      .style("fill","#FFFFFF")
+                      .style("stroke","black")
+                      .attr("opacity", ControlsData.show_kills ? 1 : 0);
 
-                svg.append('svg:g').selectAll("circle")
-                    .data(kill_cords)
-                    .enter().append("svg:circle")
-                        .attr('cx', function(d) { return xScale(d[0]) })
-                        .attr('cy', function(d) { return yScale(d[1]) })
-                        .attr('r', 3)
-                        .attr('class', 'kills')
-                        .style("fill","#FFFFFF")
-                        .style("stroke","black");
-              }
-
-              if (scope.data.controls.show_deaths) {
-                var newdata = scope.data.deaths.matches.filter(function(d) {return d.match_id == attrs.matchid;})
-                var death_cords = newdata.map(function(d) {return [d.pos_x, d.pos_y]});
-
-                svg.append('svg:g').selectAll("circle")
-                    .data(death_cords)
-                    .enter().append("svg:circle")
-                        .attr('cx', function(d) { return xScale(d[0]) })
-                        .attr('cy', function(d) { return yScale(d[1]) })
-                        .attr('r', 3)
-                        .attr('class', 'kills')
-                        .style("fill","#000000")
-                        .style("stroke","black");
-              }
+              svg.append('svg:g').selectAll("circle")
+                  .data(DataService.deaths[controllers.my_matchid].map(function(d) { return [d.pos_x, d.pos_y]}))
+                  .enter().append("svg:circle")
+                      .attr('cx', function(d) { return xScale(d[0]) })
+                      .attr('cy', function(d) { return yScale(d[1]) })
+                      .attr('r', 3)
+                      .attr('class', 'deaths')
+                      .style("fill","#000000")
+                      .style("stroke","black")
+                      .attr("opacity", ControlsData.show_deaths ? 1 : 0);
             }
-
           });
         }
     };

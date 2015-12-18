@@ -1,18 +1,17 @@
-<div class="col-md-4 col-xs-6 col-sm-3" ng-repeat="match in d3Data.matches.matches">
-  <a href="heatmaps/details/{{d3Data.summonerName}}/{{match}}/true/false">
-    <div class="panel panel-default">
+<div class="col-md-4 col-xs-6 col-sm-3" ng-repeat="(index, matchid) in list_ctrl.matches">
+  <a href="heatmaps/details/{{list_ctrl.controlsData.summonerName}}/{{matchid}}/{{list_ctrl.controlsData.show_kills}}/{{list_ctrl.controlsData.show_deaths}}">
+
+    <div ng-controller="MapCtrl as mapc" class="panel panel-default">
 
       <div class="panel-heading">
-        {{d3Data2.show_kills}}
-        <h3 class="panel-title">{{match}}</h3>
+        <h3 class="panel-title">Match {{matchid}}</h3>
       </div>
 
-      <div class="panel-body" id="card_body_{{match}}">
-        <div ng-controller="MapCtrl">
-          <div map-in-list data="d3Data" matchid="{{match}}"></div>
+      <div class="panel-body" id="card_body_{{matchid}}">
+        <div>
+          <div map-in-list></div>
         </div>
       </div>
-
     </div>
   </a>
 </div>

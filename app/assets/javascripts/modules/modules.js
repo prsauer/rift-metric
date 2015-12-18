@@ -21,7 +21,8 @@ angular.module('mainApp',['d3', 'ui.router', 'ngAnimate', 'templates'])
         url: '/',
         //template: 'assets/welcomeListView.html'
         templateUrl: 'assets/welcomeListView.html',
-        controller: 'welcomeListViewCtrl'
+        controller: 'welcomeListViewCtrl',
+        controllerAs: "list_ctrl"
       })
 
       .state("listView", {
@@ -32,11 +33,13 @@ angular.module('mainApp',['d3', 'ui.router', 'ngAnimate', 'templates'])
         views: {
           "controls": {
             templateUrl: "assets/welcomeControlsBar.html",
-            controller: "welcomeControlsCtrl"
+            controller: "welcomeControlsCtrl",
+            controllerAs: "control_ctrl"
           },
           "graph": {
             templateUrl: "assets/welcomeListView.html",
-            controller: "welcomeListViewCtrl"
+            controller: "welcomeListViewCtrl",
+            controllerAs: "list_ctrl"
           }
         }
       })
@@ -47,11 +50,13 @@ angular.module('mainApp',['d3', 'ui.router', 'ngAnimate', 'templates'])
         views: {
           "controls": {
             templateUrl: "assets/welcomeControlsBar.html",
-            controller: "welcomeControlsCtrl"
+            controller: "welcomeControlsCtrl",
+            controllerAs: "control_ctrl"
           },
           "graph": {
             templateUrl: "assets/welcomeDetailsView.html",
-            controller: "welcomeDetailsCtrl"
+            controller: "welcomeDetailsCtrl",
+            controllerAs: "details_ctrl"
           }
         }
       })
@@ -62,11 +67,13 @@ angular.module('mainApp',['d3', 'ui.router', 'ngAnimate', 'templates'])
         views: {
           "controls": {
             templateUrl: "assets/welcomeControlsBar.html",
-            controller: "welcomeControlsCtrl"
+            controller: "welcomeControlsCtrl",
+            controllerAs: "control_ctrl"
           },
           "graph": {
             templateUrl: "assets/welcomeSigmaView.html",
-            controller: "welcomeSigmaCtrl"
+            controller: "welcomeSigmaCtrl",
+            controllerAs: "sigma_ctrl"
           }
         }
       })

@@ -1,26 +1,34 @@
 angular.module('mainApp').controller('welcomeControlsCtrl',
 
-['$rootScope', '$scope', '$location', '$stateParams', 'ShareData',
+['$rootScope', '$scope', '$location', '$stateParams', 'ControlsData', '$location', '$state',
 
-function($rootScope, $scope, $location, $stateParams, ShareData) {
+function($rootScope, $scope, $location, $stateParams, ControlsData, $location, $state) {
   console.log("Controls Controller FIRE");
 
-  ShareData.show_kills = $stateParams.showKills == "true";
-  ShareData.show_deaths = $stateParams.showDeaths == "true";
-  
-  $scope.d3Data = ShareData;
+  ControlsData.show_kills = $stateParams.showKills == "true";
+  ControlsData.show_deaths = $stateParams.showDeaths == "true";
+  ControlsData.summonerName = $stateParams.summonerName;
+
+  $scope.d3Data = ControlsData;
+  $scope.sparams_watcher = $stateParams;
+
+  console.log($scope.d3Data);
+  console.log($stateParams);
+  console.log($state);
 
   $scope.controls_touched = function() {
-    ShareData.show_kills =  $scope.d3Data.show_kills;
-    ShareData.show_deaths = $scope.d3Data.show_deaths;
-  };
+    console.log("Touched");
+    ControlsData.show_kills =  $scope.d3Data.show_kills;
+    ControlsData.show_deaths = $scope.d3Data.show_deaths;
+    ControlsData.summonerName = $stateParams.summonerName;
 
-  $scope.back_to_list = function() {
-    $location.path("heatmaps/list/" + $stateParams.summonerName + "/true/false");
+    $stateParams.showKills = ControlsData.show_kills;
+
+    $state.transitionTo($state.current.name, {summonerName: $stateParams.summonerName, showKills: ControlsData.show_kills, showDeaths: ControlsData.show_deaths}, {notify:false});
   };
 
   $scope.go_to_sigma = function() {
-    $location.path("heatmaps/sigma/" + $stateParams.summonerName + "/true/false");
+    $state.go('sigmaView', {summonerName: $stateParams.summonerName, showKills: ControlsData.show_kills, showDeaths: ControlsData.show_deaths});
   };
 }
 

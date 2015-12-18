@@ -1,11 +1,9 @@
 
 
 angular.module('mainApp').controller('welcomeListViewCtrl',
-['$timeout', '$rootScope', '$scope', '$location', '$http', 'KillData', 'DeathData', 'MatchList', '$stateParams', 'ShareData',
-function($timeout, $rootScope, $scope, $location, $http, KillData, DeathData, MatchList, $stateParams, ShareData) {
+       ['$timeout', '$rootScope', '$scope', '$location', '$http', '$stateParams', 'DataService', 'ControlsData',
+function($timeout,   $rootScope,   $scope,   $location,   $http,   $stateParams,   DataService, ControlsData) {
   console.log("ListViewCtrl FIRE");
-
-  //console.log($stateParams);
 
   if ($stateParams.summonerName != undefined) {
 
@@ -17,39 +15,17 @@ function($timeout, $rootScope, $scope, $location, $http, KillData, DeathData, Ma
         $location.path("/list/" + $stateParams.summonerName + "/true/false");
       }
     }
+    
+    this.matches = {};
+    this.controlsData = ControlsData;
 
-    //console.log($stateParams.stateParams != undefined);
-
-    $scope.d3Data = {
-      summonerName: $stateParams.summonerName,
-      kills: KillData.data,
-      deaths: DeathData.data,
-      matches: MatchList.data,
-      controls: ShareData
-    };
-
-    //console.log("Show Kills: " + $scope.d3Data.show_kills + " Deaths: " + $scope.d3Data.show_deaths);
-    //console.log($scope);
-
-    KillData.loadPosts($stateParams.summonerName);
-    DeathData.loadPosts($stateParams.summonerName);
-    MatchList.loadPosts($stateParams.summonerName);
+    DataService.gatherMatchIds($stateParams.summonerName).then(
+      function(res) {
+        $scope.list_ctrl.matches = res;
+      },
+      function(err) {
+        console.log(err);
+      }
+    );
   }
-
-
-  //$timeout(function() { console.log("Timeout checker: " + $scope.d3Data.show_kills + " : " + ShareData.show_kills); return false;}, 3000);
-
-  // $scope.$watch("ShareData.show_kills",
-  //                   function(newval, oldval) {
-  //                     console.log("Watch trig " + newval + ":" + oldval);
-  //                     if (newval != undefined)
-  //                       $scope.d3Data.show_kills = newval},
-  //                   true);
-  //$rootScope.$on("show_kills_updated", function(event, arg) {$scope.d3Data.show_kills = arg; console.log("Rx'd kills " + arg);});
-
-  $scope.go_to_sigma = function() {
-    $location.path("heatmaps/sigma/" + $stateParams.summonerName + "/true/false");
-  };
-
-  $scope.viewPost = function(postId) { return $location.url('/post/'+postId) };
 }]);
