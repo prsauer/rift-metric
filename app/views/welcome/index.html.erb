@@ -5,6 +5,7 @@
 </div>
 
 
+<div class="container">
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div id="navbar" class="navbar-collapse collapse">
@@ -23,15 +24,12 @@
   </div><!--/.container-fluid -->
 </nav>
 
-<div class="container">
   <div class="row">
     <div class="col-xs-2 sidebar">
       <section ui-view="controls"></section>
     </div>
-    <div class="col-md-6 main" style="max-height: 500px;overflow-y: scroll;">
-      <div class="container">
+    <div style="max-height: 420px;overflow-y: scroll;">
         <section ui-view="graph"></section>
-      </div>
     </div>
   </div>
 </div>

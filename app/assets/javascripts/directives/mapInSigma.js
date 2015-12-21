@@ -139,7 +139,7 @@ function (d3Service,   $window,   DataService,   ControlsData) {
                         .attr('class', 'kills')
                         .style("fill","#FF0000")
                         .attr("filter", "url(#blur)")
-                        .attr("opacity", ControlsData.show_kills ? 1 : 0);
+                        .attr("opacity", ControlsData.show_kills ? 0.2 : 0);
 
                 svg.append('svg:g').selectAll("circle")
                     .data(alldeaths)
@@ -150,7 +150,7 @@ function (d3Service,   $window,   DataService,   ControlsData) {
                         .attr('class', 'deaths')
                         .style("fill","#000000")
                         .attr("filter", "url(#blur)")
-                        .attr("opacity", ControlsData.show_deaths ? 1 : 0);
+                        .attr("opacity", ControlsData.show_deaths ? 2 : 0);
 
 
             }

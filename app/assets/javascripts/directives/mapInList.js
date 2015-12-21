@@ -16,7 +16,7 @@ angular.module('mainApp').controller('MapCtrl').directive('mapInList', ['d3Servi
 
           d3Service.d3().then(function(d3) {
 
-              var image_size = 55;// element[0].clientWidth;
+              var image_size = element[0].clientWidth;
 
               var margin = parseInt(attrs.margin) || 20,
                 barHeight = parseInt(attrs.barHeight) || 20,
@@ -58,7 +58,6 @@ angular.module('mainApp').controller('MapCtrl').directive('mapInList', ['d3Servi
             });
 
             scope.$watch('controls_watcher', function(newVals, oldVals) {
-              //console.log("controls watcher (list)")
               scope.partial_render();
             },
             true);
