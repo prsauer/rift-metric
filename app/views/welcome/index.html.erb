@@ -23,12 +23,12 @@
   </div><!--/.container-fluid -->
 </nav>
 
-<div class="container-fluid">
+<div class="container">
   <div class="row">
-    <div class="col-sm-3 col-md-2 sidebar">
+    <div class="col-xs-2 sidebar">
       <section ui-view="controls"></section>
     </div>
-    <div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-0 main">
+    <div class="col-md-6 main" style="max-height: 500px;overflow-y: scroll;">
       <div class="container">
         <section ui-view="graph"></section>
       </div>

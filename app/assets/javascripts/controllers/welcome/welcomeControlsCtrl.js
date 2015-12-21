@@ -24,7 +24,9 @@ function($rootScope, $scope, $location, $stateParams, ControlsData, $location, $
 
     $stateParams.showKills = ControlsData.show_kills;
 
-    $state.transitionTo($state.current.name, {summonerName: $stateParams.summonerName, showKills: ControlsData.show_kills, showDeaths: ControlsData.show_deaths}, {notify:false});
+    $state.transitionTo($state.current.name,
+                          {summonerName: $stateParams.summonerName, showKills: ControlsData.show_kills, showDeaths: ControlsData.show_deaths, matchId: $stateParams.matchId},
+                          {notify:false});
   };
 
   $scope.go_to_sigma = function() {

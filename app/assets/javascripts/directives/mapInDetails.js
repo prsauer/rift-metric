@@ -57,7 +57,7 @@ function (d3Service,   $window,   ControlsData,   DataService) {
               //console.log("partial rendering");
               d3.selectAll(".kills").attr("opacity", (ControlsData.show_kills)?1:0);
               d3.selectAll(".deaths").attr("opacity", (ControlsData.show_deaths)?1:0);
-            }
+            };
 
             scope.$watch('$parent.details_ctrl.kills_data_ready && details_ctrl.perfs_data_ready && details_ctrl.deaths_data_ready',
             function(newVals, oldVals) {
@@ -66,7 +66,8 @@ function (d3Service,   $window,   ControlsData,   DataService) {
                 return scope.render(" no ");
             }, false);
 
-            scope.$watch('controls_watcher', function(newVals, oldVals) {
+            scope.$watch('$parent.details_ctrl.controls_watcher', function(newVals, oldVals) {
+              console.log("controls watcher (details)");
               scope.partial_render();
             },
             true);
@@ -103,63 +104,59 @@ function (d3Service,   $window,   ControlsData,   DataService) {
 
               //console.log("SCOPE_RENDER: " + scope.data.show_kills + "," + scope.data.show_deaths);
 
-              if (ControlsData.show_kills) {
-                //console.log("DETAIL RENDER KILLS");
-                var sorted_kills =
-                        DataService.kills[scope.$parent.details_ctrl.my_matchid]
-                        .sort(function(a,b) {if (a.riot_timestamp < b.riot_timestamp) return -1; else return 1;});
-                console.log(sorted_kills);
+              var sorted_kills =
+                      DataService.kills[scope.$parent.details_ctrl.my_matchid]
+                      .sort(function(a,b) {if (a.riot_timestamp < b.riot_timestamp) return -1; else return 1;});
 
-                //newdata = scope.data.kills.matches.filter(function(d) {return d.match_id == attrs.matchid;})
-                //newdata.sort(function(a,b) {if (a.riot_timestamp > b.riot_timestamp) return -1; else return 1;});
-                console.log(DataService.kills[scope.$parent.details_ctrl.my_matchid].map(function(d) { return [d.pos_x, d.pos_y]}));
+              svg.append('svg:g').selectAll("circle")
+                  .data(sorted_kills.map(function(d) { return [d.pos_x, d.pos_y]}))
+                  .enter().append("svg:circle")
+                      .attr('cx', function(d,i) { return xScale(d[0]) })
+                      .attr('cy', function(d,i) { return yScale(d[1]) })
+                      .attr('r', 3)
+                      .attr('class', 'kills')
+                      .attr("opacity", ControlsData.show_kills ? 1 : 0)
+                      .style("fill","#FFFFFF")
+                      .style("stroke","black");
 
-                svg.append('svg:g').selectAll("circle")
-                    .data(sorted_kills.map(function(d) { return [d.pos_x, d.pos_y]}))
-                    .enter().append("svg:circle")
-                        .attr('cx', function(d,i) { return xScale(d[0]) })
-                        .attr('cy', function(d,i) { return yScale(d[1]) })
-                        .attr('r', 3)
-                        .attr('class', 'kills')
-                        .style("fill","#FFFFFF")
-                        .style("stroke","black");
+              svg.append('svg:g').selectAll("text")
+                  .data(sorted_kills.map(function(d) { return [d.pos_x, d.pos_y]}))
+                  .enter().append("text")
+                      .attr('x', function(d,i) { return xScale(d[0]) })
+                      .attr('y', function(d,i) { return yScale(d[1]) })
+                      .attr("opacity", ControlsData.show_kills ? 1 : 0)
+                      .attr('class', 'kills')
+                      .style("fill","#FFFFFF")
+                      .style("stroke","black")
+                      .text(function(d,i){return i+1;})
+                      .attr('font-size', 35)
 
-                svg.append('svg:g').selectAll("text")
-                    .data(sorted_kills.map(function(d) { return [d.pos_x, d.pos_y]}))
-                    .enter().append("text")
-                        .attr('x', function(d,i) { return xScale(d[0]) })
-                        .attr('y', function(d,i) { return yScale(d[1]) })
-                        .style("fill","#FFFFFF")
-                        .style("stroke","black")
-                        .text(function(d,i){return i+1;})
-                        .attr('font-size', 35)
-              }
+              var sorted_deaths =
+                      DataService.deaths[scope.$parent.details_ctrl.my_matchid]
+                      .sort(function(a,b) {if (a.riot_timestamp < b.riot_timestamp) return -1; else return 1;});
 
-              if (ControlsData.show_deaths) {
-                // var newdata;
-                // newdata = scope.data.deaths.matches.filter(function(d) {return d.match_id == attrs.matchid;})
-                // newdata.sort(function(a,b) {if (a.riot_timestamp > b.riot_timestamp) return -1; else return 1;});
+              svg.append('svg:g').selectAll("circle")
+                  .data(sorted_deaths.map(function(d) { return [d.pos_x, d.pos_y]}))
+                  .enter().append("svg:circle")
+                      .attr('cx', function(d) { return xScale(d[0]) })
+                      .attr('cy', function(d) { return yScale(d[1]) })
+                      .attr('r', 3)
+                      .attr('class', 'deaths')
+                      .attr("opacity", ControlsData.show_deaths ? 1 : 0)
+                      .style("fill","#000000")
+                      .style("stroke","black");
 
-                svg.append('svg:g').selectAll("circle")
-                    .data(DataService.deaths[scope.$parent.details_ctrl.my_matchid].map(function(d) { return [d.pos_x, d.pos_y]}))
-                    .enter().append("svg:circle")
-                        .attr('cx', function(d) { return xScale(d[0]) })
-                        .attr('cy', function(d) { return yScale(d[1]) })
-                        .attr('r', 3)
-                        .attr('class', 'deaths')
-                        .style("fill","#000000")
-                        .style("stroke","black");
-
-                svg.append('svg:g').selectAll("text")
-                    .data(DataService.deaths[scope.$parent.details_ctrl.my_matchid].map(function(d) { return [d.pos_x, d.pos_y]}))
-                    .enter().append("text")
-                        .attr('x', function(d,i) { return xScale(d[0]) })
-                        .attr('y', function(d,i) { return yScale(d[1]) })
-                        .style("fill","#000000")
-                        .style("stroke","white")
-                        .text(function(d,i){return i+1;})
-                        .attr('font-size', 35)
-              }
+              svg.append('svg:g').selectAll("text")
+                  .data(sorted_deaths.map(function(d) { return [d.pos_x, d.pos_y]}))
+                  .enter().append("text")
+                      .attr('x', function(d,i) { return xScale(d[0]) })
+                      .attr('y', function(d,i) { return yScale(d[1]) })
+                      .attr('class', 'deaths')
+                      .style("fill","#000000")
+                      .style("stroke","white")
+                      .attr("opacity", ControlsData.show_deaths ? 1 : 0)
+                      .text(function(d,i){return i+1;})
+                      .attr('font-size', 35);
 
 
             }

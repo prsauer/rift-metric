@@ -61,11 +61,24 @@ function (d3Service,   $window,   DataService,   ControlsData) {
 
             scope.partial_render = function(data) {
               console.log("partial rendering");
-              d3.selectAll(".kills").attr("opacity", (ControlsData.show_kills)?1:0);
-              d3.selectAll(".deaths").attr("opacity", (ControlsData.show_deaths)?1:0);
+              if(ControlsData.show_kills) {
+                d3.selectAll(".kills").attr("opacity", 0.2);
+              }
+              else {
+                d3.selectAll(".kills").attr("opacity", 0);
+              }
+
+              if(ControlsData.show_deaths) {
+                d3.selectAll(".deaths").attr("opacity", 0.2);
+              }
+              else {
+                d3.selectAll(".deaths").attr("opacity", 0);
+              }
+
             };
 
             scope.$watch('$parent.sigma_ctrl.controls_watcher', function(newVals, oldVals) {
+              console.log("controls_watcher (sigma)");
               scope.partial_render();
             },
             true);
@@ -125,7 +138,6 @@ function (d3Service,   $window,   DataService,   ControlsData) {
                         .attr('r', 40)
                         .attr('class', 'kills')
                         .style("fill","#FF0000")
-                        .style("opacity",0.4)
                         .attr("filter", "url(#blur)")
                         .attr("opacity", ControlsData.show_kills ? 1 : 0);
 
@@ -134,10 +146,10 @@ function (d3Service,   $window,   DataService,   ControlsData) {
                     .enter().append("svg:circle")
                         .attr('cx', function(d) { return xScale(d[0]) })
                         .attr('cy', function(d) { return yScale(d[1]) })
-                        .attr('r', 3)
+                        .attr('r', 40)
                         .attr('class', 'deaths')
                         .style("fill","#000000")
-                        .style("stroke","black")
+                        .attr("filter", "url(#blur)")
                         .attr("opacity", ControlsData.show_deaths ? 1 : 0);
 
 

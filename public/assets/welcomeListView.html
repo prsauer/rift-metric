@@ -1,4 +1,4 @@
-<div class="col-md-4 col-xs-6 col-sm-3" ng-repeat="(index, matchid) in list_ctrl.matches">
+<div ng-repeat="(index, matchid) in list_ctrl.matches">
   <a href="heatmaps/details/{{list_ctrl.controlsData.summonerName}}/{{matchid}}/{{list_ctrl.controlsData.show_kills}}/{{list_ctrl.controlsData.show_deaths}}">
 
     <div ng-controller="MapCtrl as mapc" class="panel panel-default">
