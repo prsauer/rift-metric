@@ -11,8 +11,8 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-          <form class="navbar-form" action="" method="get" target="_blank" id="submission_form">
-            <input type="text" name="name" value="" id="name_submission_text">
+          <form class="navbar-form" action="" method="get" target="_blank" id="submission_form" onsubmit="on_search_click()">
+            <input type="text" name="name" value="" id="name_submission_text" onsubmit="on_search_click()">
             <input type="button" onclick="on_search_click()" value="Search">
           </form>
         </li>
