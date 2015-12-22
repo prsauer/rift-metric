@@ -150,7 +150,7 @@ function (d3Service,   $window,   DataService,   ControlsData) {
                         .attr('class', 'deaths')
                         .style("fill","#000000")
                         .attr("filter", "url(#blur)")
-                        .attr("opacity", ControlsData.show_deaths ? 2 : 0);
+                        .attr("opacity", ControlsData.show_deaths ? 0.2 : 0);
 
 
             }
