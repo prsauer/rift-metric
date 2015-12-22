@@ -16,7 +16,7 @@ function (d3Service,   $window,   DataService,   ControlsData) {
               barHeight = parseInt(attrs.barHeight) || 20,
               barPadding = parseInt(attrs.barPadding) || 5;
 
-              var image_size = element[0].clientWidth;
+              var image_size = 260;
 
               var domain = {
                       min: {x: -120, y: -120},
@@ -135,7 +135,7 @@ function (d3Service,   $window,   DataService,   ControlsData) {
                     .enter().append("svg:circle")
                         .attr('cx', function(d,i) { return xScale(d[0]) })
                         .attr('cy', function(d,i) { return yScale(d[1]) })
-                        .attr('r', 40)
+                        .attr('r', 10)
                         .attr('class', 'kills')
                         .style("fill","#FF0000")
                         .attr("filter", "url(#blur)")
@@ -146,7 +146,7 @@ function (d3Service,   $window,   DataService,   ControlsData) {
                     .enter().append("svg:circle")
                         .attr('cx', function(d) { return xScale(d[0]) })
                         .attr('cy', function(d) { return yScale(d[1]) })
-                        .attr('r', 40)
+                        .attr('r', 10)
                         .attr('class', 'deaths')
                         .style("fill","#000000")
                         .attr("filter", "url(#blur)")

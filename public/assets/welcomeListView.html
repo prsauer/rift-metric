@@ -1,11 +1,14 @@
 
-<div ng-repeat="(index, matchid) in list_ctrl.matches" class="col-xs-2">
+<div ng-repeat="(index, matchid) in list_ctrl.matches" class="col-xs-4">
   <a href="heatmaps/details/{{list_ctrl.controlsData.summonerName}}/{{matchid}}/{{list_ctrl.controlsData.show_kills}}/{{list_ctrl.controlsData.show_deaths}}">
 
     <div ng-controller="MapCtrl as mapc" class="panel panel-default">
 
       <div class="panel-heading">
-        <h3 class="panel-title">Match {{matchid}}</h3>
+        <h3 class="panel-title">
+          {{mapc.vm.performances[matchid].winner?"Victory":"Defeat"}}
+          {{mapc.convert_riot_time(mapc.vm.details[matchid].match_creation)}}
+        </h3>
       </div>
 
       <div class="panel-body" id="card_body_{{matchid}}">

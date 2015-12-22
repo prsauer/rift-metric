@@ -74,18 +74,18 @@ class DataController < ApplicationController
   def all_match_details
     if params.has_key? :id
       summoner_id = params[:id].to_i
+      render_all_match_details(summoner_id)
     elsif params.has_key? :name
       summoner_id = Summoner.where(name: "#{params[:name]}").first.riot_id
-    else
-      respond_to do |format|
-        format.json { render json: "" }
-      end
-    end
-
-    if params.has_key? :match
-      render_match_details(summoner_id, params[:match])
-    elsif
       render_all_match_details(summoner_id)
+    else
+      if params.has_key? :match
+        render_match_details(params[:match])
+      else
+        respond_to do |format|
+          format.json { render json: "" }
+        end
+      end
     end
   end
 
@@ -125,9 +125,9 @@ class DataController < ApplicationController
     end
   end
 
-  def render_match_details(summoner)
+  def render_match_details(matchid)
     respond_to do |format|
-      format.json { render json: Match.where(summoner_id: "#{summoner}").collect }
+      format.json { render json: Match.where(riot_match_id: "#{matchid}").first }
     end
   end
 

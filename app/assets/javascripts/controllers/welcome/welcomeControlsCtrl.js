@@ -9,17 +9,16 @@ function($rootScope, $scope, $location, $stateParams, ControlsData, $location, $
   ControlsData.show_deaths = $stateParams.showDeaths == "true";
   ControlsData.summonerName = $stateParams.summonerName;
 
-  $scope.d3Data = ControlsData;
+  $scope.controls_watcher = ControlsData;
   $scope.sparams_watcher = $stateParams;
 
-  console.log($scope.d3Data);
   console.log($stateParams);
   console.log($state);
 
   $scope.controls_touched = function() {
     console.log("Touched");
-    ControlsData.show_kills =  $scope.d3Data.show_kills;
-    ControlsData.show_deaths = $scope.d3Data.show_deaths;
+    ControlsData.show_kills =  $scope.controls_watcher.show_kills;
+    ControlsData.show_deaths = $scope.controls_watcher.show_deaths;
     ControlsData.summonerName = $stateParams.summonerName;
 
     $stateParams.showKills = ControlsData.show_kills;

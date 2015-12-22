@@ -3,7 +3,7 @@ function () {
   var data = {
     show_kills: true,
     show_deaths: false,
-    summonerName: ""
+    summonerName: "default"
   };
   return data;
 }

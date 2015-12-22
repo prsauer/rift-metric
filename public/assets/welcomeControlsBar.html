@@ -1,17 +1,21 @@
-<ul class="list-group" ng-controller="welcomeControlsCtrl">
+<ul class="list-group">
+
+  <li class="list-group-item">
+    <center><h4>{{controls_watcher.summonerName}}</h4></center>
+  </li>
 
   <li class="list-group-item"><div class="input-group"><span class="input-group-addon">
-    <input type="checkbox" ng-click="controls_touched()" ng-model="d3Data.show_kills"  aria-label="..." id="kills-checkbox">
+    <input type="checkbox" ng-click="controls_touched()" ng-model="controls_watcher.show_kills"  aria-label="..." id="kills-checkbox">
     Kills
   </span></div></li>
 
   <li class="list-group-item"><div class="input-group"><span class="input-group-addon">
-    <input type="checkbox" ng-click="controls_touched()" ng-model="d3Data.show_deaths" aria-label="..." id="deaths-checkbox">
+    <input type="checkbox" ng-click="controls_touched()" ng-model="controls_watcher.show_deaths" aria-label="..." id="deaths-checkbox">
     Deaths
   </span></div></li>
 
   <li class="list-group-item"><div class="input-group"><span class="input-group-addon">
-    <input type="button" ng-click="go_to_sigma()" aria-label="..." value="&#931;">
+    <input type="button" ng-click="go_to_sigma()" aria-label="..." value="&#931; Cumulative">
   </span></div></li>
 
 </ul>

@@ -128,6 +128,24 @@ function ($http, $q, $scope) {
     return d.promise;
   };
 
+  dataService.gatherDetails = function(matchid) {
+    var d = $q.defer();
+    if (!dataService.details_have_loaded.hasOwnProperty(matchid)) {
+      $http.get('./data/match_details.json?&match=' + matchid).success(function(data) {
+        dataService.details[matchid] = data;
+        d.resolve(data);
+        dataService.details_have_loaded[matchid] = true;
+        //console.log("Loaded gatherPerformance " + summonerName + ", " + matchid);
+      }).error(function() {
+        return console.error("Failed to get data! " + matchid );
+      });
+    }
+    else {
+      d.resolve();
+    }
+    return d.promise;
+  };
+
   dataService.gatherPerformance = function(summonerName, matchid) {
     var d = $q.defer();
     if (!dataService.performance_has_loaded.hasOwnProperty(matchid)) {

@@ -6,6 +6,6 @@
 //= require_tree ./controllers/welcome
 
 function on_search_click() {
-  window.location.href = '#/list/' + $("#name_submission_text").val();
+  window.location.href = 'heatmaps/list/' + $("#name_submission_text").val() + '/true/false';
   return true;
 }
