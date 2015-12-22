@@ -1,14 +1,31 @@
 <div class="panel panel-default">
 
   <div class="panel-heading">
-    <h3 class="panel-title" style="display: inline;">
-      {{details_ctrl.data_watcher.performances[details_ctrl.my_matchid].winner ? "Victory" : "Defeat"}}
-    </h3>
     <input type="submit" ng-click="back_to_list()" aria-label="..." value="Close">
+
+    <h3 class="panel-title" style="display: inline;">
+      Details View:
+    </h3>
+    <i>Numbers represent ordering of events</i>
   </div>
 
-  <div class="panel-body" id="card_body_{{match}}">
-    <div map-in-details ></div>
-  </div>
+  <div class="panel-body" id="card_body">
+    <span map-in-details ></span>
 
+    <span style="display: inline; float: left; padding-right: 10px;">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <center><h4>
+            {{details_ctrl.vm.performances[details_ctrl.matchid].kills}}/{{details_ctrl.vm.performances[details_ctrl.matchid].deaths}}/{{details_ctrl.vm.performances[details_ctrl.matchid].assists}} K/D/A
+            </h4></center>
+        </li>
+        <li class="list-group-item">
+          <center><h4>{{details_ctrl.round(details_ctrl.vm.details[details_ctrl.matchid].match_duration/60)}} Minutes Duration</h4></center>
+        </li>
+        <li class="list-group-item">
+          <center><h4>{{details_ctrl.vm.performances[details_ctrl.matchid].minions_killed}} Minions Killed</h4></center>
+        </li>
+      </ul>
+    </span>
+  </div>
 </div>

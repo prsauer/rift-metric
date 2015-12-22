@@ -8,19 +8,30 @@ function($scope,   $state,   $stateParams,   DataService,   ControlsData) {
   this.kills_data_ready = false;
   this.deaths_data_ready = false;
   this.perfs_data_ready = false;
+  this.details_data_ready = false;
 
-  this.data_watcher = DataService;
+  this.vm = DataService;
   this.controls_watcher = ControlsData;
-
-  this.my_matchid = $stateParams.matchId;
+  this.matchid = $stateParams.matchId;
 
   $scope.back_to_list = function() {
     $state.go('listView', {summonerName: $stateParams.summonerName, showKills: ControlsData.show_kills, showDeaths: ControlsData.show_deaths});
   };
 
-  if (ControlsData.summonerName != "" && this.my_matchid != undefined && this.my_matchid != "") {
+  this.round = Math.round;
 
-    DataService.gatherPerformance(ControlsData.summonerName, this.my_matchid).then(
+  if (ControlsData.summonerName != "" && this.matchid != undefined && this.matchid != "") {
+
+    DataService.gatherDetails(this.matchid).then(
+      function(res) {
+        $scope.details_ctrl.details_data_ready = true;
+      },
+      function(err) {
+        console.log(err);
+      }
+    );
+
+    DataService.gatherPerformance(ControlsData.summonerName, this.matchid).then(
       function(res) {
         $scope.details_ctrl.perfs_data_ready = true;
       },
@@ -29,7 +40,7 @@ function($scope,   $state,   $stateParams,   DataService,   ControlsData) {
       }
     );
 
-    DataService.gatherKills(ControlsData.summonerName, this.my_matchid).then(
+    DataService.gatherKills(ControlsData.summonerName, this.matchid).then(
       function(res) {
         $scope.details_ctrl.kills_data_ready = true;
       },
@@ -38,7 +49,7 @@ function($scope,   $state,   $stateParams,   DataService,   ControlsData) {
       }
     );
 
-    DataService.gatherDeaths(ControlsData.summonerName, this.my_matchid).then(
+    DataService.gatherDeaths(ControlsData.summonerName, this.matchid).then(
       function(res) {
         $scope.details_ctrl.deaths_data_ready = true;
       },

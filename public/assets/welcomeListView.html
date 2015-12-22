@@ -7,8 +7,9 @@
       <div class="panel-heading">
         <h3 class="panel-title">
           {{mapc.vm.performances[matchid].winner?"Victory":"Defeat"}}
-          {{mapc.convert_riot_time(mapc.vm.details[matchid].match_creation)}}
+
         </h3>
+        <i>{{mapc.convert_riot_time(mapc.vm.details[matchid].match_creation)}}</i>
       </div>
 
       <div class="panel-body" id="card_body_{{matchid}}">

@@ -11,16 +11,13 @@ function (d3Service,   $window,   ControlsData,   DataService) {
           data: '=',
         },
         link: function(scope,element,attrs,controllers) {
-          console.log("details-Link");
-          console.log(scope);
-          console.log(controllers);
 
           d3Service.d3().then(function(d3) {
             var margin = parseInt(attrs.margin) || 20,
               barHeight = parseInt(attrs.barHeight) || 20,
               barPadding = parseInt(attrs.barPadding) || 5;
 
-              var image_size = element[0].clientWidth;
+              var image_size = 260; //element[0].clientWidth;
 
               var domain = {
                       min: {x: -120, y: -120},
@@ -61,13 +58,13 @@ function (d3Service,   $window,   ControlsData,   DataService) {
 
             scope.$watch('$parent.details_ctrl.kills_data_ready && details_ctrl.perfs_data_ready && details_ctrl.deaths_data_ready',
             function(newVals, oldVals) {
-              console.log("WATCH data_ready: " + newVals + " : " + oldVals);
+              //console.log("WATCH data_ready: " + newVals + " : " + oldVals);
               //if (newVals != oldVals)
                 return scope.render(" no ");
             }, false);
 
             scope.$watch('$parent.details_ctrl.controls_watcher', function(newVals, oldVals) {
-              console.log("controls watcher (details)");
+              //console.log("controls watcher (details)");
               scope.partial_render();
             },
             true);
@@ -105,7 +102,7 @@ function (d3Service,   $window,   ControlsData,   DataService) {
               //console.log("SCOPE_RENDER: " + scope.data.show_kills + "," + scope.data.show_deaths);
 
               var sorted_kills =
-                      DataService.kills[scope.$parent.details_ctrl.my_matchid]
+                      DataService.kills[scope.$parent.details_ctrl.matchid]
                       .sort(function(a,b) {if (a.riot_timestamp < b.riot_timestamp) return -1; else return 1;});
 
               svg.append('svg:g').selectAll("circle")
@@ -129,10 +126,10 @@ function (d3Service,   $window,   ControlsData,   DataService) {
                       .style("fill","#FFFFFF")
                       .style("stroke","black")
                       .text(function(d,i){return i+1;})
-                      .attr('font-size', 35)
+                      .attr('font-size', 25)
 
               var sorted_deaths =
-                      DataService.deaths[scope.$parent.details_ctrl.my_matchid]
+                      DataService.deaths[scope.$parent.details_ctrl.matchid]
                       .sort(function(a,b) {if (a.riot_timestamp < b.riot_timestamp) return -1; else return 1;});
 
               svg.append('svg:g').selectAll("circle")
@@ -156,7 +153,7 @@ function (d3Service,   $window,   ControlsData,   DataService) {
                       .style("stroke","white")
                       .attr("opacity", ControlsData.show_deaths ? 1 : 0)
                       .text(function(d,i){return i+1;})
-                      .attr('font-size', 35);
+                      .attr('font-size', 25);
 
 
             }
