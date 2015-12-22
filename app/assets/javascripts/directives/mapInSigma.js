@@ -17,6 +17,8 @@ function (d3Service,   $window,   DataService,   ControlsData) {
               barPadding = parseInt(attrs.barPadding) || 5;
 
               var image_size = 260;
+              var high_opacity = 0.6;
+              var blur_stdev = 30;
 
               var domain = {
                       min: {x: -120, y: -120},
@@ -34,6 +36,11 @@ function (d3Service,   $window,   DataService,   ControlsData) {
               var svg = d3.select(element[0]).append("svg")
               .attr('width', width)
               .attr('height', height);
+
+              svg.append("defs").append("filter")
+              .attr("id","blur")
+              .append("feGaussianBlur")
+              .attr("stdDeviation",blur_stdev);
 
               svg.append('image')
                   .attr('xlink:href', bg)
@@ -62,14 +69,14 @@ function (d3Service,   $window,   DataService,   ControlsData) {
             scope.partial_render = function(data) {
               console.log("partial rendering");
               if(ControlsData.show_kills) {
-                d3.selectAll(".kills").attr("opacity", 0.2);
+                d3.selectAll(".kills").attr("opacity", high_opacity);
               }
               else {
                 d3.selectAll(".kills").attr("opacity", 0);
               }
 
               if(ControlsData.show_deaths) {
-                d3.selectAll(".deaths").attr("opacity", 0.2);
+                d3.selectAll(".deaths").attr("opacity", high_opacity);
               }
               else {
                 d3.selectAll(".deaths").attr("opacity", 0);
@@ -112,12 +119,6 @@ function (d3Service,   $window,   DataService,   ControlsData) {
                 .domain([domain.min.y, domain.max.y])
                 .range([height, 0]);
 
-
-                svg.append("defs").append("filter")
-                .attr("id","blur")
-                .append("feGaussianBlur")
-                .attr("stdDeviation",5);
-
                 var allkills = [];
 
                 for(var key in DataService.kills) {
@@ -130,28 +131,30 @@ function (d3Service,   $window,   DataService,   ControlsData) {
                   alldeaths = alldeaths.concat(DataService.deaths[key].map(function(e){return [e.pos_x, e.pos_y]}));
                 }
 
-                svg.append('svg:g').selectAll("circle")
+                svg.append('g')
+                .attr('class', 'kills')
+                .attr("opacity", ControlsData.show_kills ? high_opacity : 0)
+                .selectAll("circle")
                     .data(allkills)
-                    .enter().append("svg:circle")
-                        .attr('cx', function(d,i) { return xScale(d[0]) })
-                        .attr('cy', function(d,i) { return yScale(d[1]) })
-                        .attr('r', 10)
-                        .attr('class', 'kills')
-                        .style("fill","#FF0000")
-                        .attr("filter", "url(#blur)")
-                        .attr("opacity", ControlsData.show_kills ? 0.2 : 0);
+                    .enter().append("circle")
+                    .attr('cx', function(d,i) { return xScale(d[0]) })
+                    .attr('cy', function(d,i) { return yScale(d[1]) })
+                    .attr('r', 10)
+                    .attr("filter", "url(#blur)");
+                    //.style("fill","#FF0000");
 
-                svg.append('svg:g').selectAll("circle")
+                svg.append('g')
+                .attr('class', 'deaths')
+                .attr("opacity", ControlsData.show_deaths ? high_opacity : 0)
+                .selectAll("circle")
                     .data(alldeaths)
-                    .enter().append("svg:circle")
-                        .attr('cx', function(d) { return xScale(d[0]) })
-                        .attr('cy', function(d) { return yScale(d[1]) })
-                        .attr('r', 10)
-                        .attr('class', 'deaths')
-                        .style("fill","#000000")
-                        .attr("filter", "url(#blur)")
-                        .attr("opacity", ControlsData.show_deaths ? 2 : 0);
-
+                    .enter()
+                    .append("circle")
+                    .attr('cx', function(d) { return xScale(d[0]) })
+                    .attr('cy', function(d) { return yScale(d[1]) })
+                    .attr('r', 10)
+                    .attr("filter", "url(#blur)")
+                    .style("fill","#000000");
 
             }
 
