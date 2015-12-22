@@ -7,17 +7,17 @@ function($scope, DataService, ControlsData, $timeout) {
   this.deaths_data_ready = false;
   this.perfs_data_ready = false;
   this.details_data_ready = false;
-  
+
   this.my_matchid = $scope.$parent.$parent.matchid;
   this.controls_watcher = ControlsData;
   this.victory = "loading...";
   this.vm = DataService;
 
   this.convert_riot_time = function (ts) {
-    console.log(ts);
+    //console.log(ts);
     var d = new Date();
     d.setTime(ts);
-    console.log(d);
+    //console.log(d);
     return d.toLocaleTimeString() + " " + d.toLocaleDateString();
   }
 
@@ -36,8 +36,6 @@ function($scope, DataService, ControlsData, $timeout) {
       function(res) {
         $scope.mapc.perfs_data_ready = true;
         $scope.mapc.victory = DataService.performances[$scope.mapc.my_matchid].winner?"Victory":"Defeat";
-        console.log("Test");
-        console.log($scope);
       },
       function(err) {
         console.log(err);
