@@ -15,16 +15,22 @@ function($timeout,   $rootScope,   $scope,   $location,   $http,   $stateParams,
         $location.path("/list/" + $stateParams.summonerName + "/true/false");
       }
     }
-    
+
     this.matches = {};
     this.controlsData = ControlsData;
+    this.error_state = false;
+    this.error_message = "Loading...";
 
     DataService.gatherMatchIds($stateParams.summonerName).then(
       function(res) {
+        $scope.list_ctrl.error_message = "Loading...";
         $scope.list_ctrl.matches = res;
+        $scope.list_ctrl.error_state = false;
       },
       function(err) {
-        console.log(err);
+        $scope.list_ctrl.error_state = true;
+        $scope.list_ctrl.error_message = "Could not find any data for summoner " + $stateParams.summonerName;
+        console.log("err fire");
       }
     );
   }

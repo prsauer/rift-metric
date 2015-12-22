@@ -47,7 +47,7 @@ function ($http, $q, $scope) {
           //console.log("Loaded gatherSigma_deaths " + summonerName );
           //console.log(dataService);
         }).error(function() {
-          return console.error("Failed to get data! " + summonerName );
+          console.log("DataService.gatherSigmaDeaths Failed to get data! " + summonerName );
         });
       //}
       //else {
@@ -83,7 +83,7 @@ function ($http, $q, $scope) {
           dataService.sigma_kills = true;
           //console.log("Loaded gatherSigma_kills " + summonerName );
         }).error(function() {
-          return console.error("Failed to get data! " + summonerName );
+          console.log("DataService.gatherSigmaKills Failed to get data! " + summonerName );
         });
       //}
       //else {
@@ -101,7 +101,8 @@ function ($http, $q, $scope) {
           dataService.deaths_have_loaded[matchid] = true;
           //console.log("Loaded gatherDeaths " + summonerName + ", " + matchid);
         }).error(function() {
-          return console.error("Failed to get data! " + summonerName + ", " + matchid );
+          d.resolve();
+          console.log("DataService.gatherDeaths Failed to get data! " + summonerName + ", " + matchid );
         });
       }
       else {
@@ -119,7 +120,7 @@ function ($http, $q, $scope) {
           dataService.kills_have_loaded[matchid] = true;
           //console.log("Loaded gatherKills " + summonerName + ", " + matchid);
         }).error(function() {
-          return console.error("Failed to get data! " + summonerName + ", " + matchid );
+          console.log("DataService.gatherKills Failed to get data! " + summonerName + ", " + matchid );
         });
     }
     else {
@@ -137,7 +138,7 @@ function ($http, $q, $scope) {
         dataService.details_have_loaded[matchid] = true;
         //console.log("Loaded gatherPerformance " + summonerName + ", " + matchid);
       }).error(function() {
-        return console.error("Failed to get data! " + matchid );
+        console.log("DataService.gatherDetails Failed to get data! " + matchid );
       });
     }
     else {
@@ -155,7 +156,7 @@ function ($http, $q, $scope) {
         dataService.performance_has_loaded[matchid] = true;
         //console.log("Loaded gatherPerformance " + summonerName + ", " + matchid);
       }).error(function() {
-        return console.error("Failed to get data! " + summonerName + ", " + matchid );
+        console.log("DataService.gatherPerformance Failed to get data! " + summonerName + ", " + matchid );
       });
     }
     else {
@@ -173,7 +174,8 @@ function ($http, $q, $scope) {
         dataService.match_ids_have_loaded = true;
         console.log("Loaded gatherMatchIds for " + summonerName);
       }).error(function() {
-        return console.error("Failed to get data!");
+        d.reject();
+        console.log("DataService.gatherMatchIds Failed to get data!");
       });
     }
     else {
