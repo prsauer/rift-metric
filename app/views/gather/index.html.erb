@@ -4,7 +4,7 @@ i = 0;
 
 function start_collection() {
   console.log("collect " + match_list[i]);
-  $.get("gather/match_details.json?match=" + match_list[i],
+  $.get("/gather/match_details.json?match=" + match_list[i],
   function(d1) {
     i = i + 1;
     $(".matches_gathered").append("<div>Gathered " + d1.riot_match_id + "</div>");
@@ -19,7 +19,7 @@ function gather_search() {
 
   sum_name = $("#gather_name").val();
   console.log("gather search for " + sum_name);
-  $.get("data/match_id_list.json?name=" + sum_name,
+  $.get("/gather/match_id_list.json?name=" + sum_name,
     function(d1,d2) {
       match_list = d1;
       console.log(match_list);

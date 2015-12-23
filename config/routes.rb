@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'data/match_details', to: 'data#all_match_details'
   get 'data/match_perf', to: 'data#all_performances'
 
+  get 'gather/match_id_list', to: 'gather#match_list'
   get 'gather/match_details', to: 'gather#match_details'
   get 'gather/index', to: 'gather#index'
 
