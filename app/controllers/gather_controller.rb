@@ -226,13 +226,13 @@ class GatherController < ApplicationController
       add_champ_kill(event, participant_id_map, match_info)
     end
 
-    if event["eventType"] == "WARD_PLACED"
-      add_ward_place(event, participant_id_map, match_info)
-    end
+    #if event["eventType"] == "WARD_PLACED"
+      #add_ward_place(event, participant_id_map, match_info)
+    #end
 
-    if event["eventType"] == "WARD_KILL"
-      add_ward_kill(event, participant_id_map, match_info)
-    end
+    #if event["eventType"] == "WARD_KILL"
+      #add_ward_kill(event, participant_id_map, match_info)
+    #end
   end
 
   def add_champ_kill(event, participant_id_map, match_info)
