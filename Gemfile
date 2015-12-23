@@ -2,8 +2,6 @@ source 'https://rubygems.org'
 ruby '2.2.3'
 
 gem 'ruby-lol', :path => 'vendor/ruby-lol'
-#gem 'ruby-lol'
-#gem 'better-errors'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
@@ -56,3 +54,9 @@ gem 'puma'
 # Use debugger
 #gem 'debugger', group: [:development, :test]
 gem 'byebug'
+
+group :development, :test do
+  gem 'vcr'
+  gem 'webmock'
+  gem 'rspec-rails'
+end
