@@ -7,6 +7,6 @@
 
 function on_search_click(e) {
   event.preventDefault();
-  window.location.href = 'heatmaps/list/' + $("#name_submission_text").val() + '/true/false';
+  window.location.href = '/heatmaps/list/' + $("#name_submission_text").val() + '/true/false';
   return false;
 }
