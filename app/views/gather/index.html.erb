@@ -8,7 +8,7 @@ function start_collection() {
   function(d1) {
     i = i + 1;
     console.log(d1);
-    if (d1.objHasOwnProperty("riot_match_id")) {
+    if (d1.hasOwnProperty("riot_match_id")) {
       $(".matches_gathered").append("<div>Skipping " + d1.riot_match_id + "</div>");
       setTimeout(start_collection, 250);
     }
