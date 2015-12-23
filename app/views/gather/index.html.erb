@@ -8,8 +8,14 @@ function start_collection() {
   function(d1) {
     i = i + 1;
     console.log(d1);
-    $(".matches_gathered").append("<div>Gathered " + d1.riot_match_id + "</div>");
-    setTimeout(start_collection, 10000);
+    if (d1.objHasOwnProperty("riot_match_id")) {
+      $(".matches_gathered").append("<div>Skipping " + d1.riot_match_id + "</div>");
+      setTimeout(start_collection, 250);
+    }
+    else {
+      $(".matches_gathered").append("<div>Gathered " + d1.matchId + "</div>");
+      setTimeout(start_collection, 10000);
+    }
   });
 }
 
