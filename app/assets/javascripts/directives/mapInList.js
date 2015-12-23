@@ -46,7 +46,7 @@ angular.module('mainApp').controller('MapCtrl').directive('mapInList', ['d3Servi
 
 
             scope.partial_render = function(data) {
-              //console.log("partial rendering");
+              console.log("partial rendering");
               d3.selectAll(".kills").attr("opacity", (ControlsData.show_kills)?1:0);
               d3.selectAll(".deaths").attr("opacity", (ControlsData.show_deaths)?1:0);
             }
@@ -57,7 +57,7 @@ angular.module('mainApp').controller('MapCtrl').directive('mapInList', ['d3Servi
               scope.render(scope.data);
             });
 
-            scope.$watch('controls_watcher', function(newVals, oldVals) {
+            scope.$watch('mapc.controls_watcher', function(newVals, oldVals) {
               scope.partial_render();
             },
             true);

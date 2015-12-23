@@ -8,6 +8,7 @@ function($scope,   $location,   $http,   $stateParams,   ControlsData,   $state,
   this.matches = {};
   this.data_watcher = DataService;
   this.controls_watcher = ControlsData;
+  this.absUrl = $location;
 
   $scope.back_to_list = function() {
     $state.go('listView', {summonerName: $stateParams.summonerName, showKills: ControlsData.show_kills, showDeaths: ControlsData.show_deaths});

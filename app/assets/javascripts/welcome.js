@@ -5,7 +5,8 @@
 //= require_tree ./directives
 //= require_tree ./controllers/welcome
 
-function on_search_click() {
+function on_search_click(e) {
+  event.preventDefault();
   window.location.href = 'heatmaps/list/' + $("#name_submission_text").val() + '/true/false';
-  return true;
+  return false;
 }

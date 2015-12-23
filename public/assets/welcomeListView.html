@@ -1,4 +1,5 @@
 
+<ng-if="list_ctrl.error_state == false">
 <div ng-repeat="(index, matchid) in list_ctrl.matches" class="col-xs-4">
   <a href="heatmaps/details/{{list_ctrl.controlsData.summonerName}}/{{matchid}}/{{list_ctrl.controlsData.show_kills}}/{{list_ctrl.controlsData.show_deaths}}">
 
@@ -7,8 +8,9 @@
       <div class="panel-heading">
         <h3 class="panel-title">
           {{mapc.vm.performances[matchid].winner?"Victory":"Defeat"}}
-          {{mapc.convert_riot_time(mapc.vm.details[matchid].match_creation)}}
+
         </h3>
+        <i>{{mapc.convert_riot_time(mapc.vm.details[matchid].match_creation)}}</i>
       </div>
 
       <div class="panel-body" id="card_body_{{matchid}}">
@@ -19,3 +21,7 @@
     </div>
   </a>
 </div>
+</ng-if>
+<ng-if="list_ctrl.error_state">
+<h3>{{list_ctrl.error_message}}</h3>
+</ng-if>

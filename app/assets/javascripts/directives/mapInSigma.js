@@ -3,8 +3,8 @@ angular.module('mainApp')
 .controller('MapCtrl')
 .directive('mapInSigma',
 
-        ['d3Service', '$window', 'DataService', 'ControlsData',
-function (d3Service,   $window,   DataService,   ControlsData) {
+        ['d3Service', '$window', 'DataService', 'ControlsData', '$location',
+function (d3Service,   $window,   DataService,   ControlsData,   $location) {
     return {
         restrict: 'EA',
         scope: {
@@ -49,7 +49,7 @@ function (d3Service,   $window,   DataService,   ControlsData) {
                   .attr('width', width)
                   .attr('height', height);
 
-
+            filter_url_string = "url(" + scope.$parent.sigma_ctrl.absUrl + "#blur)";
 
             scope.$watch(function() {
               return angular.element($window)[0].innerWidth;
@@ -66,8 +66,14 @@ function (d3Service,   $window,   DataService,   ControlsData) {
               return scope.render("1");
             }, true);
 
+            scope.$watch('$parent.sigma_ctrl.absUrl.absUrl()', function() {
+              filter_url_string = "url(" + $location.absUrl() + "#blur)";
+              d3.selectAll(".kills").attr("filter", filter_url_string);
+              d3.selectAll(".deaths").attr("filter", filter_url_string);
+             }, true);
+
             scope.partial_render = function(data) {
-              console.log("partial rendering");
+              filter_url_string = "url(" + $location.absUrl() + "#blur)";
               if(ControlsData.show_kills) {
                 d3.selectAll(".kills").attr("opacity", high_opacity);
               }
@@ -81,7 +87,6 @@ function (d3Service,   $window,   DataService,   ControlsData) {
               else {
                 d3.selectAll(".deaths").attr("opacity", 0);
               }
-
             };
 
             scope.$watch('$parent.sigma_ctrl.controls_watcher', function(newVals, oldVals) {
@@ -136,29 +141,28 @@ function (d3Service,   $window,   DataService,   ControlsData) {
                 .attr("opacity", ControlsData.show_kills ? high_opacity : 0)
                 .selectAll("circle")
                     .data(allkills)
-                    .enter().append("circle")
-                    .attr('cx', function(d,i) { return xScale(d[0]) })
-                    .attr('cy', function(d,i) { return yScale(d[1]) })
-                    .attr('r', 10)
-                    .attr("filter", "url(#blur)");
-                    //.style("fill","#FF0000");
+                    .enter().append("svg:circle")
+                        .attr('cx', function(d,i) { return xScale(d[0]) })
+                        .attr('cy', function(d,i) { return yScale(d[1]) })
+                        .attr('r', 10)
+                        .attr('class', 'kills')
+                        .style("fill","#FF0000")
+                        .attr("filter", filter_url_string)
+                        .attr("opacity", ControlsData.show_kills ? 0.2 : 0);
 
-                svg.append('g')
-                .attr('class', 'deaths')
-                .attr("opacity", ControlsData.show_deaths ? high_opacity : 0)
-                .selectAll("circle")
+                svg.append('svg:g').selectAll("circle")
                     .data(alldeaths)
-                    .enter()
-                    .append("circle")
-                    .attr('cx', function(d) { return xScale(d[0]) })
-                    .attr('cy', function(d) { return yScale(d[1]) })
-                    .attr('r', 10)
-                    .attr("filter", "url(#blur)")
-                    .style("fill","#000000");
+                    .enter().append("svg:circle")
+                        .attr('cx', function(d) { return xScale(d[0]) })
+                        .attr('cy', function(d) { return yScale(d[1]) })
+                        .attr('r', 10)
+                        .attr('class', 'deaths')
+                        .style("fill","#000000")
+                        .attr("filter", filter_url_string)
+                        .attr("opacity", ControlsData.show_deaths ? 0.2 : 0);
 
-            }
-
-          });
-        }
-    };
-}]);
+            } // .render
+          });  // d3.then
+        } // .link
+    }; //service return {} closure
+}]); // .directive
