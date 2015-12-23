@@ -7,6 +7,7 @@ function start_collection() {
   $.get("/gather/match_details.json?match=" + match_list[i],
   function(d1) {
     i = i + 1;
+    console.log(d1);
     $(".matches_gathered").append("<div>Gathered " + d1.riot_match_id + "</div>");
     setTimeout(start_collection, 10000);
   });
