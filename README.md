@@ -1,7 +1,14 @@
-create new heroku app
+Rift-Metric is an analytics engine for League of Legends.
+
+Currently it is capable of digesting data from the Riot API and presenting it in the form of plots of the data over the League minimap. Development is currently underway on features to provide insight and feedback to players to improve their play using historical data of their own matches and those of their peers.
+
+
+HOW TO DEPLOY
+
+Create new heroku app
 follow the instructions for using heroku's git and installing the heroku toolbelt
 
-clone repo
+Clone repo
 git clone https://github.com/prsauer/rift-metric.git
 
 Setup your heroku environment variables
