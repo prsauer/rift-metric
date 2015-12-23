@@ -14,7 +14,7 @@ angular
       $stateProvider
         .state("home", {
           url: '/',
-          templateUrl: 'assets/welcomeListView.html',
+          templateUrl: 'welcomeListView.html',
           controller: 'welcomeListViewCtrl',
           controllerAs: "list_ctrl"
         })
@@ -23,12 +23,12 @@ angular
           url: '/heatmaps/list/{summonerName}/{showKills}/{showDeaths}',
           views: {
             "controls": {
-              templateUrl: "assets/welcomeControlsBar.html",
+              templateUrl: "welcomeControlsBar.html",
               controller: "welcomeControlsCtrl",
               controllerAs: "control_ctrl"
             },
             "graph": {
-              templateUrl: "assets/welcomeListView.html",
+              templateUrl: "welcomeListView.html",
               controller: "welcomeListViewCtrl",
               controllerAs: "list_ctrl"
             }
@@ -39,12 +39,12 @@ angular
           url: '/heatmaps/details/{summonerName}/{matchId}/{showKills}/{showDeaths}',
           views: {
             "controls": {
-              templateUrl: "assets/welcomeControlsBar.html",
+              templateUrl: "welcomeControlsBar.html",
               controller: "welcomeControlsCtrl",
               controllerAs: "control_ctrl"
             },
             "graph": {
-              templateUrl: "assets/welcomeDetailsView.html",
+              templateUrl: "welcomeDetailsView.html",
               controller: "welcomeDetailsCtrl",
               controllerAs: "details_ctrl"
             }
@@ -55,12 +55,12 @@ angular
           url: '/heatmaps/sigma/{summonerName}/{showKills}/{showDeaths}',
           views: {
             "controls": {
-              templateUrl: "assets/welcomeControlsBar.html",
+              templateUrl: "welcomeControlsBar.html",
               controller: "welcomeControlsCtrl",
               controllerAs: "control_ctrl"
             },
             "graph": {
-              templateUrl: "assets/welcomeSigmaView.html",
+              templateUrl: "welcomeSigmaView.html",
               controller: "welcomeSigmaCtrl",
               controllerAs: "sigma_ctrl"
             }
@@ -71,7 +71,10 @@ angular
           template: '<h1>My Contacts</h1>'
         });
 
-      $locationProvider.html5Mode(true);
+      $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+    });
 
     }
   ]);

@@ -1,7 +1,7 @@
 
 <ng-if="list_ctrl.error_state == false">
 <div ng-repeat="(index, matchid) in list_ctrl.matches" class="col-xs-4">
-  <a href="heatmaps/details/{{list_ctrl.controlsData.summonerName}}/{{matchid}}/{{list_ctrl.controlsData.show_kills}}/{{list_ctrl.controlsData.show_deaths}}">
+  <a href="/heatmaps/details/{{list_ctrl.controlsData.summonerName}}/{{matchid}}/{{list_ctrl.controlsData.show_kills}}/{{list_ctrl.controlsData.show_deaths}}">
 
     <div ng-controller="MapCtrl as mapc" class="panel panel-default">
 

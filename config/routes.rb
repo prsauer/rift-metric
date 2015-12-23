@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -16,6 +16,6 @@ Rails.application.routes.draw do
   get 'gather/index', to: 'gather#index'
 
   root 'welcome#index'
-  get '*path', to: 'welcome#index'
-
+  get '/*path.html', to: 'welcome#index', layout: 0
+  get '/*path', to: 'welcome#index'
 end

@@ -21,7 +21,7 @@ function ($http, $q, $scope) {
   dataService.gatherSigmaDeaths = function(summonerName) {
     var d = $q.defer();
       //if (!dataService.deaths_have_loaded.hasOwnProperty(matchid)) {
-        $http.get('./data/all_deaths.json?name=' + summonerName ).success(function(data) {
+        $http.get('/data/all_deaths.json?name=' + summonerName ).success(function(data) {
 
           data.forEach(function(ele) {
             if (
@@ -59,7 +59,7 @@ function ($http, $q, $scope) {
   dataService.gatherSigmaKills = function(summonerName) {
     var d = $q.defer();
       //if (!dataService.kills_have_loaded.hasOwnProperty(matchid)) {
-        $http.get('./data/all_kills.json?name=' + summonerName ).success(function(data) {
+        $http.get('/data/all_kills.json?name=' + summonerName ).success(function(data) {
           data.forEach(function(ele) {
             if (
             !dataService.kills_have_loaded.hasOwnProperty(ele.match_id) ||
@@ -95,7 +95,7 @@ function ($http, $q, $scope) {
   dataService.gatherDeaths = function(summonerName, matchid) {
     var d = $q.defer();
       if (!dataService.deaths_have_loaded.hasOwnProperty(matchid)) {
-        $http.get('./data/all_deaths.json?name=' + summonerName + "&match=" + matchid).success(function(data) {
+        $http.get('/data/all_deaths.json?name=' + summonerName + "&match=" + matchid).success(function(data) {
           dataService.deaths[matchid] = data;
           d.resolve(data);
           dataService.deaths_have_loaded[matchid] = true;
@@ -114,7 +114,7 @@ function ($http, $q, $scope) {
   dataService.gatherKills = function(summonerName, matchid) {
     var d = $q.defer();
     if (!dataService.kills_have_loaded.hasOwnProperty(matchid)) {
-        $http.get('./data/all_kills.json?name=' + summonerName + "&match=" + matchid).success(function(data) {
+        $http.get('/data/all_kills.json?name=' + summonerName + "&match=" + matchid).success(function(data) {
           dataService.kills[matchid] = data;
           d.resolve(data);
           dataService.kills_have_loaded[matchid] = true;
@@ -132,7 +132,7 @@ function ($http, $q, $scope) {
   dataService.gatherDetails = function(matchid) {
     var d = $q.defer();
     if (!dataService.details_have_loaded.hasOwnProperty(matchid)) {
-      $http.get('./data/match_details.json?&match=' + matchid).success(function(data) {
+      $http.get('/data/match_details.json?&match=' + matchid).success(function(data) {
         dataService.details[matchid] = data;
         d.resolve(data);
         dataService.details_have_loaded[matchid] = true;
@@ -150,7 +150,7 @@ function ($http, $q, $scope) {
   dataService.gatherPerformance = function(summonerName, matchid) {
     var d = $q.defer();
     if (!dataService.performance_has_loaded.hasOwnProperty(matchid)) {
-      $http.get('./data/match_perf.json?name=' + summonerName + "&match=" + matchid).success(function(data) {
+      $http.get('/data/match_perf.json?name=' + summonerName + "&match=" + matchid).success(function(data) {
         dataService.performances[matchid] = data;
         d.resolve(data);
         dataService.performance_has_loaded[matchid] = true;
@@ -168,7 +168,7 @@ function ($http, $q, $scope) {
   dataService.gatherMatchIds = function(summonerName) {
     var d = $q.defer();
     if (!dataService.match_ids_has_loaded) {
-      $http.get('./data/match_id_list.json?name=' + summonerName).success(function(data) {
+      $http.get('/data/match_id_list.json?name=' + summonerName).success(function(data) {
         dataService.match_ids = data;
         d.resolve(data);
         dataService.match_ids_have_loaded = true;

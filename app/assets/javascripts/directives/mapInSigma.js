@@ -17,8 +17,6 @@ function (d3Service,   $window,   DataService,   ControlsData,   $location) {
               barPadding = parseInt(attrs.barPadding) || 5;
 
               var image_size = 260;
-              var high_opacity = 0.6;
-              var blur_stdev = 30;
 
               var domain = {
                       min: {x: -120, y: -120},
@@ -36,11 +34,6 @@ function (d3Service,   $window,   DataService,   ControlsData,   $location) {
               var svg = d3.select(element[0]).append("svg")
               .attr('width', width)
               .attr('height', height);
-
-              svg.append("defs").append("filter")
-              .attr("id","blur")
-              .append("feGaussianBlur")
-              .attr("stdDeviation",blur_stdev);
 
               svg.append('image')
                   .attr('xlink:href', bg)
@@ -75,14 +68,14 @@ function (d3Service,   $window,   DataService,   ControlsData,   $location) {
             scope.partial_render = function(data) {
               filter_url_string = "url(" + $location.absUrl() + "#blur)";
               if(ControlsData.show_kills) {
-                d3.selectAll(".kills").attr("opacity", high_opacity);
+                d3.selectAll(".kills").attr("opacity", 0.2);
               }
               else {
                 d3.selectAll(".kills").attr("opacity", 0);
               }
 
               if(ControlsData.show_deaths) {
-                d3.selectAll(".deaths").attr("opacity", high_opacity);
+                d3.selectAll(".deaths").attr("opacity", 0.2);
               }
               else {
                 d3.selectAll(".deaths").attr("opacity", 0);
@@ -124,6 +117,12 @@ function (d3Service,   $window,   DataService,   ControlsData,   $location) {
                 .domain([domain.min.y, domain.max.y])
                 .range([height, 0]);
 
+
+                svg.append("defs").append("filter")
+                .attr("id","blur")
+                .append("feGaussianBlur")
+                .attr("stdDeviation",5);
+
                 var allkills = [];
 
                 for(var key in DataService.kills) {
@@ -136,10 +135,7 @@ function (d3Service,   $window,   DataService,   ControlsData,   $location) {
                   alldeaths = alldeaths.concat(DataService.deaths[key].map(function(e){return [e.pos_x, e.pos_y]}));
                 }
 
-                svg.append('g')
-                .attr('class', 'kills')
-                .attr("opacity", ControlsData.show_kills ? high_opacity : 0)
-                .selectAll("circle")
+                svg.append('svg:g').selectAll("circle")
                     .data(allkills)
                     .enter().append("svg:circle")
                         .attr('cx', function(d,i) { return xScale(d[0]) })
@@ -158,6 +154,7 @@ function (d3Service,   $window,   DataService,   ControlsData,   $location) {
                         .attr('r', 10)
                         .attr('class', 'deaths')
                         .style("fill","#000000")
+                        //.attr("filter", "url(#base)")
                         .attr("filter", filter_url_string)
                         .attr("opacity", ControlsData.show_deaths ? 0.2 : 0);
 
