@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151214113413) do
+ActiveRecord::Schema.define(version: 20151224004527) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,7 +114,7 @@ ActiveRecord::Schema.define(version: 20151214113413) do
     t.integer  "minions_killed"
     t.integer  "neutral_minions_killed"
     t.integer  "neutral_minions_killed_team_jungle"
-    t.integer  "neutral_minions_killed_enemey_jungle"
+    t.integer  "neutral_minions_killed_enemy_jungle"
     t.integer  "gold_earned"
     t.integer  "gold_spent"
     t.integer  "combat_player_score"
@@ -148,8 +148,8 @@ ActiveRecord::Schema.define(version: 20151214113413) do
     t.integer  "total_time_crowd_control_dealt"
     t.integer  "participant_id"
     t.string   "rune_string"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   create_table "summoners", force: :cascade do |t|

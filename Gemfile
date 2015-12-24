@@ -55,7 +55,7 @@ gem 'puma'
 #gem 'debugger', group: [:development, :test]
 gem 'byebug'
 
-group :development, :test do
+group :test do
   gem 'vcr'
   gem 'webmock'
   gem 'rspec-rails'

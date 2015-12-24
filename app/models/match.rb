@@ -1,7 +1,7 @@
 class Match < ActiveRecord::Base
   has_many :performances
-  has_many :summoners, :through => :performance
-
+  has_many :summoners, :through => :performances
+  
   validates :riot_match_id, uniqueness: true
   validates :riot_match_id, presence: true
   validates :region, presence: true
@@ -39,4 +39,9 @@ class Match < ActiveRecord::Base
   #validates :team2_ban1, presence: true
   #validates :team2_ban2, presence: true
   #validates :team2_ban3, presence: true
+
+  def method_missing(m, *args, &block)
+    puts "MISSING " + m.to_s
+  end
+
 end

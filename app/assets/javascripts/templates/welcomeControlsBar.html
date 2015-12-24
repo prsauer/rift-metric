@@ -1,21 +1,50 @@
-<ul class="list-group">
+<nav class="navbar navbar-default">
+    <div id="navbar" class="navbar-collapse collapse">
 
-  <li class="list-group-item">
-    <center><h4>{{controls_watcher.summonerName}}</h4></center>
-  </li>
+      <ul class="nav navbar-nav">
+        <li class="navbar-brand">
+          {{controls_watcher.summonerName}}
+        </li>
+      </ul>
 
-  <li class="list-group-item"><div class="input-group"><span class="input-group-addon">
-    <input type="checkbox" ng-click="controls_touched()" ng-model="controls_watcher.show_kills"  aria-label="..." id="kills-checkbox">
-    Kills
-  </span></div></li>
+      <ul class="nav navbar-nav">
+        <li class="navbar-brand" style="background-color: #FFFFFF;">
+          F
+        </li>
+      </ul>
 
-  <li class="list-group-item"><div class="input-group"><span class="input-group-addon">
-    <input type="checkbox" ng-click="controls_touched()" ng-model="controls_watcher.show_deaths" aria-label="..." id="deaths-checkbox">
-    Deaths
-  </span></div></li>
+      <ul class="nav navbar-nav">
+        <li class="navbar-brand">
+          <input type="checkbox" ng-click="controls_touched()" ng-model="controls_watcher.show_kills"  aria-label="..." id="kills-checkbox">
+          Kills
+        </li>
 
-  <li class="list-group-item"><div class="input-group"><span class="input-group-addon">
-    <input type="button" ng-click="go_to_sigma()" aria-label="..." value="&#931; Cumulative">
-  </span></div></li>
+        <li class="navbar-brand">
+          <input type="checkbox" ng-click="controls_touched()" ng-model="controls_watcher.show_deaths" aria-label="..." id="deaths-checkbox">
+          Deaths
+        </li>
 
-</ul>
+
+     </ul>
+
+     <ul class="nav navbar-nav">
+       <li class="navbar-brand" style="background-color: #FFFFFF;">
+         V
+       </li>
+     </ul>
+
+     <ul class="nav navbar-nav">
+       <li class="navbar-brand">
+         <input type="button" ng-click="go_to_sigma()" aria-label="..." value="&#931; Cumulative">
+       </li>
+     </ul>
+
+      <form class="navbar-form navbar-right" role="search" onsubmit="on_search_click()">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Summoner Name" id="name_submission_text" required>
+        </div>
+        <button type="submit" class="btn btn-default">Search</button>
+      </form>
+
+    </div>
+</nav>
