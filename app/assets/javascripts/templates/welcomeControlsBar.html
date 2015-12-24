@@ -15,15 +15,12 @@
 
       <ul class="nav navbar-nav">
         <li class="navbar-brand">
-          <input type="checkbox" ng-click="controls_touched()" ng-model="controls_watcher.show_kills"  aria-label="..." id="kills-checkbox">
-          Kills
+          <input type="checkbox" bootstrap-switch ng-model="controls_watcher.show_kills">  Kills</input>
         </li>
 
         <li class="navbar-brand">
-          <input type="checkbox" ng-click="controls_touched()" ng-model="controls_watcher.show_deaths" aria-label="..." id="deaths-checkbox">
-          Deaths
+          <input type="checkbox" bootstrap-switch ng-model="controls_watcher.show_deaths">  Deaths</input>
         </li>
-
 
      </ul>
 

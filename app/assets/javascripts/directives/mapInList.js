@@ -46,7 +46,7 @@ angular.module('mainApp').controller('MapCtrl').directive('mapInList', ['d3Servi
 
 
             scope.partial_render = function(data) {
-              console.log("partial rendering");
+              //console.log("partial rendering");
               d3.selectAll(".kills").attr("opacity", (ControlsData.show_kills)?1:0);
               d3.selectAll(".deaths").attr("opacity", (ControlsData.show_deaths)?1:0);
             }
@@ -95,27 +95,24 @@ angular.module('mainApp').controller('MapCtrl').directive('mapInList', ['d3Servi
                 .domain([domain.min.y, domain.max.y])
                 .range([image_size, 0]);
 
-              svg.append('svg:g').selectAll("circle")
+              svg.append('svg:g').attr('class', 'kills').attr("opacity", ControlsData.show_kills ? 1 : 0).selectAll("circle")
                   .data(DataService.kills[controllers.my_matchid].map(function(d) { return [d.pos_x, d.pos_y]}))
                   .enter().append("svg:circle")
                       .attr('cx', function(d) { return xScale(d[0]) })
                       .attr('cy', function(d) { return yScale(d[1]) })
                       .attr('r', 3)
-                      .attr('class', 'kills')
                       .style("fill","#FFFFFF")
-                      .style("stroke","black")
-                      .attr("opacity", ControlsData.show_kills ? 1 : 0);
+                      .style("stroke","black");
 
-              svg.append('svg:g').selectAll("circle")
+              svg.append('svg:g').attr('class', 'deaths').attr("opacity", ControlsData.show_deaths ? 1 : 0).selectAll("circle")
                   .data(DataService.deaths[controllers.my_matchid].map(function(d) { return [d.pos_x, d.pos_y]}))
                   .enter().append("svg:circle")
                       .attr('cx', function(d) { return xScale(d[0]) })
                       .attr('cy', function(d) { return yScale(d[1]) })
                       .attr('r', 3)
-                      .attr('class', 'deaths')
                       .style("fill","#000000")
-                      .style("stroke","black")
-                      .attr("opacity", ControlsData.show_deaths ? 1 : 0);
+                      .style("stroke","black");
+
             }
           });
         }
