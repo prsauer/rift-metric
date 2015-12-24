@@ -19,3 +19,6 @@
 //= require angular-rails-templates
 
 //= require_tree ./templates
+
+
+//= require bootstrap-switch.min
