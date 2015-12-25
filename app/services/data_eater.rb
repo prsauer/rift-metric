@@ -15,7 +15,7 @@ class DataEater
     participant_id_map = Hash.new
 
     i = 0
-    
+
     match_info["participantIdentities"].each do |p|
 
       player = eat_player(p)
@@ -161,8 +161,15 @@ class DataEater
 
   def eat_champ_kill(event, participant_id_map, match_info)
     k = KillEvent.new
-    k.summoner_id = participant_id_map[event["killerId"]]
-    k.match_id = match_info["matchId"].to_i
+    puts event
+    puts participant_id_map
+    puts "summoner find by " + participant_id_map[event["killerId"]].to_s
+    if event["killerId"] == 0
+      k.summoner_id = nil
+    else
+      k.summoner_id = Summoner.find_by(riot_id: participant_id_map[event["killerId"]]).id
+    end
+    k.match_id = Match.find_by(riot_match_id: match_info["matchId"].to_i).id
     k.riot_timestamp = event["timestamp"]
     k.pos_x = event["position"]["x"]
     k.pos_y = event["position"]["y"]

@@ -154,6 +154,8 @@ function ($http, $q, $scope) {
         dataService.performances[matchid] = data;
         d.resolve(data);
         dataService.performance_has_loaded[matchid] = true;
+        //console.log("perf req ret:");
+        //console.log(data);
         //console.log("Loaded gatherPerformance " + summonerName + ", " + matchid);
       }).error(function() {
         console.log("DataService.gatherPerformance Failed to get data! " + summonerName + ", " + matchid );

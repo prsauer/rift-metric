@@ -4,7 +4,7 @@ class DataController < ApplicationController
     if params.has_key? :id
       summoner_id = params[:id].to_i
     elsif params.has_key? :name
-      summoner_id = Summoner.where(name: "#{params[:name]}").first.riot_id
+      summoner_id = Summoner.find_by(name: "#{params[:name]}").id
     else
       respond_to do |format|
         format.json { render json: "" }
@@ -57,12 +57,11 @@ class DataController < ApplicationController
   def match_id_list
     if params.has_key? :name
       respond_to do |format|
-        summoner_id = Summoner.where(name: "#{params[:name]}").first.riot_id
-        format.json { render json: KillEvent.where(summoner_id: "#{summoner_id}").map {|k| k.match_id}.uniq! }
+        format.json { render json: Summoner.find_by(name: params[:name]).matches.map{|m| m.id} }
       end
     elsif params.has_key? :id
       respond_to do |format|
-        format.json { render json: KillEvent.where(summoner_id: "#{params[:id].to_i}").map {|k| k.match_id}.uniq! }
+        format.json { render json: Summoner.find_by(riot_id: params[:id]).matches.map{|m| m.id} }
       end
     else
       respond_to do |format|
@@ -76,7 +75,7 @@ class DataController < ApplicationController
       summoner_id = params[:id].to_i
       render_all_match_details(summoner_id)
     elsif params.has_key? :name
-      summoner_id = Summoner.where(name: "#{params[:name]}").first.riot_id
+      summoner_id = Summoner.find_by(name: "#{params[:name]}").id
       render_all_match_details(summoner_id)
     else
       if params.has_key? :match
@@ -90,20 +89,26 @@ class DataController < ApplicationController
   end
 
   def all_performances
-    if params.has_key? :id
-      summoner_id = params[:id].to_i
-    elsif params.has_key? :name
-      summoner_id = Summoner.where(name: "#{params[:name]}").first.riot_id
-    else
-      respond_to do |format|
-        format.json { render json: "" }
-      end
-    end
+    if params.has_key? :name
+      if !params.has_key? :match
+        perfs = Summoner.find_by(name: params[:name]).performances
+        hashed_return = Hash.new
+        perfs.each do |p|
+          hashed_return[p.match.riot_match_id] = p
+        end
 
-    if params.has_key? :match
-      render_performance(summoner_id, params[:match])
-    elsif
-      render_all_performances(summoner_id)
+        respond_to do |format|
+          format.json { render json: hashed_return }
+        end
+      else
+        #perfs = Performance.where(riot_match_id: params[:match]).summoner.where(name: params[:name])
+        sid = Summoner.find_by(name: params[:name]).id
+        mid = Match.find_by(id: params[:match]).id
+        perfs = Performance.find_by(summoner_id: sid, match_id: mid)
+        respond_to do |format|
+          format.json { render json: perfs }
+        end
+      end
     end
   end
 
@@ -127,7 +132,7 @@ class DataController < ApplicationController
 
   def render_match_details(matchid)
     respond_to do |format|
-      format.json { render json: Match.where(riot_match_id: "#{matchid}").first }
+      format.json { render json: Match.where(id: "#{matchid}").first }
     end
   end
 

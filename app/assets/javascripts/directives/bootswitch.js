@@ -1,3 +1,6 @@
+//credit to ben cull for posting this directive!
+//http://benjii.me/2014/07/angular-directive-for-bootstrap-switch/
+
 angular.module('mainApp').controller('welcomeControlsCtrl').directive('bootstrapSwitch', [
         function() {
             return {

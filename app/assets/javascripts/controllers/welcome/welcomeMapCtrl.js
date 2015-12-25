@@ -35,6 +35,10 @@ function($scope, DataService, ControlsData, $timeout) {
     DataService.gatherPerformance(ControlsData.summonerName, $scope.$parent.$parent.matchid).then(
       function(res) {
         $scope.mapc.perfs_data_ready = true;
+        // console.log($scope);
+        // console.log($scope.mapc.my_matchid);
+        // console.log(DataService.performances[$scope.mapc.my_matchid]);
+        // console.log(DataService.performances);
         $scope.mapc.victory = DataService.performances[$scope.mapc.my_matchid].winner?"Victory":"Defeat";
       },
       function(err) {
