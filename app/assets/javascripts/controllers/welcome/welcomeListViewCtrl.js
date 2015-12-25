@@ -20,6 +20,7 @@ function($timeout,   $rootScope,   $scope,   $location,   $http,   $stateParams,
     this.controlsData = ControlsData;
     this.error_state = true;
     this.error_message = "Loading...";
+    this.gdata = champ_gdata_id;
 
     DataService.gatherMatchIds($stateParams.summonerName).then(
       function(res) {

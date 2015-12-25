@@ -8,8 +8,8 @@
 
       <div class="panel-heading">
         <h3 class="panel-title">
+          <img height=25 width=25 src="http://ddragon.leagueoflegends.com/cdn/5.24.2/img/champion/{{list_ctrl.gdata[mapc.vm.performances[matchid].champion_id].name}}.png"></img>
           {{mapc.vm.performances[matchid].winner?"Victory":"Defeat"}}
-
         </h3>
         <i>{{mapc.convert_riot_time(mapc.vm.details[matchid].match_creation)}}</i>
       </div>
