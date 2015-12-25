@@ -18,7 +18,7 @@ function($timeout,   $rootScope,   $scope,   $location,   $http,   $stateParams,
 
     this.matches = {};
     this.controlsData = ControlsData;
-    this.error_state = false;
+    this.error_state = true;
     this.error_message = "Loading...";
 
     DataService.gatherMatchIds($stateParams.summonerName).then(

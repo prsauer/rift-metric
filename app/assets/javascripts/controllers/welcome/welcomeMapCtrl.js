@@ -14,10 +14,8 @@ function($scope, DataService, ControlsData, $timeout) {
   this.vm = DataService;
 
   this.convert_riot_time = function (ts) {
-    //console.log(ts);
     var d = new Date();
     d.setTime(ts);
-    //console.log(d);
     return d.toLocaleTimeString() + " " + d.toLocaleDateString();
   }
 
@@ -35,10 +33,6 @@ function($scope, DataService, ControlsData, $timeout) {
     DataService.gatherPerformance(ControlsData.summonerName, $scope.$parent.$parent.matchid).then(
       function(res) {
         $scope.mapc.perfs_data_ready = true;
-        // console.log($scope);
-        // console.log($scope.mapc.my_matchid);
-        // console.log(DataService.performances[$scope.mapc.my_matchid]);
-        // console.log(DataService.performances);
         $scope.mapc.victory = DataService.performances[$scope.mapc.my_matchid].winner?"Victory":"Defeat";
       },
       function(err) {

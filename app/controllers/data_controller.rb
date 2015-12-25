@@ -57,11 +57,7 @@ class DataController < ApplicationController
   def match_id_list
     if params.has_key? :name
       respond_to do |format|
-        format.json { render json: Summoner.find_by(name: params[:name]).matches.map{|m| m.id} }
-      end
-    elsif params.has_key? :id
-      respond_to do |format|
-        format.json { render json: Summoner.find_by(riot_id: params[:id]).matches.map{|m| m.id} }
+        format.json { render json: Summoner.find_by(name: params[:name]).matches.order('match_creation DESC').map{|m| m.id} }
       end
     else
       respond_to do |format|
